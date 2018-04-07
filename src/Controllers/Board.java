@@ -1,6 +1,6 @@
 package Controllers;
 
-import domain.Shape;
+import Domain.Shape.Shape;
 
 import java.util.ArrayList;
 
