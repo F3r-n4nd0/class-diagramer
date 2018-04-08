@@ -7,6 +7,7 @@ import Domain.Shape.Shape;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -57,12 +58,12 @@ class BoardTest {
             ArrayList<Shape> shapes;
 
             @Override
-            public void Save(ArrayList<Shape> shapes) throws Exception {
-                this.shapes = (ArrayList<Shape>) shapes.clone();
+            public void save(List<Shape> shapes) throws Exception {
+                this.shapes = new ArrayList(shapes);
             }
 
             @Override
-            public ArrayList<Shape> Get() throws Exception {
+            public List<Shape> load() throws Exception {
                 return this.shapes;
             }
         };
@@ -78,6 +79,11 @@ class BoardTest {
             @Override
             public ObjectsToDraw getObjectsToDraw(Point position, Size size) throws Exception {
                 return new ObjectsToDraw(null, null, null);
+            }
+
+            @Override
+            public boolean isLocated(Point point) {
+                return false;
             }
         };
 

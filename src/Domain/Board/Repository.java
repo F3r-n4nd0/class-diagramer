@@ -2,11 +2,12 @@ package Domain.Board;
 
 import Domain.Shape.Shape;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface Repository {
 
-    void Save(ArrayList<Shape> shapes) throws Exception;
+    void save(List<Shape> shapes) throws Exception;
 
-    ArrayList<Shape> Get() throws Exception;
+    List<Shape> load() throws Exception;
+
 }

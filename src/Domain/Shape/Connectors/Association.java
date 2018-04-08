@@ -22,10 +22,15 @@ public class Association extends Connector implements Shape {
     }
 
     @Override
-    public ObjectsToDraw getObjectsToDraw() throws Exception {
-        List<Line> lines = new ArrayList<Line>();
-        lines.add(getLine());
+    public Shape createShape(MainClass firstClass, MainClass secondClass) throws Exception {
+        return new Association(firstClass, secondClass);
+    }
 
+    @Override
+    public ObjectsToDraw getObjectsToDraw() throws Exception {
+        Line line = calculateShortLine();
+        List<Line> lines = new ArrayList<Line>();
+        lines.add(line);
         return new ObjectsToDraw(lines, null, null);
     }
 
@@ -41,4 +46,10 @@ public class Association extends Connector implements Shape {
 
         return new ObjectsToDraw(lines, null, null);
     }
+
+    @Override
+    public boolean isLocated(Point point) {
+        return super.isLocated(point);
+    }
+
 }

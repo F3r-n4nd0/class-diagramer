@@ -1,7 +1,7 @@
 package UI.MenuBar;
 
 import Domain.Shape.Shape;
-import UI.Canvas.CanvasDelegate;
+import UI.Canvas.MenuShapesDelegate;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MenuBar extends JPanel implements MenuSelectShapeDelegate, CanvasDelegate {
+public class MenuBar extends JPanel implements MenuSelectShapeDelegate, MenuShapesDelegate {
 
     public static final int WIDTH_MENU = 130;
 
@@ -27,7 +27,6 @@ public class MenuBar extends JPanel implements MenuSelectShapeDelegate, CanvasDe
         loadButtonsToMenu();
     }
 
-
     private List<ShapeButton> convertShapesTosButtons(List<Shape> shapes) {
         List<ShapeButton> buttons = new ArrayList<ShapeButton>();
         for (Shape shape : shapes) {
@@ -38,13 +37,11 @@ public class MenuBar extends JPanel implements MenuSelectShapeDelegate, CanvasDe
         return buttons;
     }
 
-
     private void loadButtonsToMenu() {
         for (ShapeButton button : shapesMenuButtons) {
             add(button);
         }
     }
-
 
     @Override
     public void menuSelect(ShapeButton buttonShape) {

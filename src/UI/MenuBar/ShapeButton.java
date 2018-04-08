@@ -13,6 +13,7 @@ import java.awt.geom.Rectangle2D;
 public class ShapeButton extends JButton {
 
     public static final int DISTANCE_PADDING = 15;
+
     private Shape shape;
     public Boolean isSelected;
 
@@ -31,7 +32,7 @@ public class ShapeButton extends JButton {
         try {
             g.setFont(new Font("Arial", Font.PLAIN, 10));
             if (isSelected) {
-                g.setColor(Color.BLUE);
+                g.setColor(Color.RED);
             } else {
                 g.setColor(Color.BLACK);
             }

@@ -24,21 +24,22 @@ public class Inherit extends Connector implements Shape {
     }
 
     @Override
+    public Shape createShape(MainClass firstClass, MainClass secondClass) throws Exception {
+        return new Inherit(firstClass, secondClass);
+    }
+
+    @Override
     public ObjectsToDraw getObjectsToDraw() throws Exception {
-
-        Line line = getLine();
+        Line line = calculateShortLine();
         double angleLine = line.getAngle();
-
         Point point1 = calculatePointsArrow(line.getFinalPoint(), ARROW_LENGTH, angleLine - Math.toRadians(ARROW_ANGLE));
         Point point2 = calculatePointsArrow(line.getFinalPoint(), ARROW_LENGTH, angleLine + Math.toRadians(ARROW_ANGLE));
         Point point3 = calculateMiddlePoint(point1, point2);
-
         ArrayList<Line> lines = new ArrayList<Line>();
         lines.add(new Line(line.getStartPoint(), point3));
         lines.add(new Line(point1, line.getFinalPoint()));
         lines.add(new Line(point2, line.getFinalPoint()));
         lines.add(new Line(point1, point2));
-
         return new ObjectsToDraw(lines, null, null);
     }
 
@@ -48,19 +49,20 @@ public class Inherit extends Connector implements Shape {
                 new Point(position.getX(), position.getY() + size.getHeight() / 2),
                 new Point(position.getX() + size.getWidth(), position.getY() + size.getHeight() / 2)
         );
-
         double angleLine = line.getAngle();
-
         Point point1 = calculatePointsArrow(line.getFinalPoint(), ARROW_LENGTH, angleLine - Math.toRadians(ARROW_ANGLE));
         Point point2 = calculatePointsArrow(line.getFinalPoint(), ARROW_LENGTH, angleLine + Math.toRadians(ARROW_ANGLE));
         Point point3 = calculateMiddlePoint(point1, point2);
-
         ArrayList<Line> lines = new ArrayList<Line>();
         lines.add(new Line(line.getStartPoint(), point3));
         lines.add(new Line(point1, line.getFinalPoint()));
         lines.add(new Line(point2, line.getFinalPoint()));
         lines.add(new Line(point1, point2));
-
         return new ObjectsToDraw(lines, null, null);
+    }
+
+    @Override
+    public boolean isLocated(Point point) {
+        return super.isLocated(point);
     }
 }

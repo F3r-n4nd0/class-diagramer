@@ -5,21 +5,28 @@ import Domain.Shape.Models.Point;
 import Domain.Shape.Shape;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Board {
 
-    private ArrayList<Shape> shapes;
+    private List<Shape> shapes;
+    private List<Shape> selectedShapes;
     private Repository repository;
 
     public Board() throws Exception {
         this.shapes = new ArrayList<Shape>();
+        this.selectedShapes = new ArrayList<Shape>();
     }
 
     public void setRepository(Repository repository) {
         this.repository = repository;
     }
 
-    public ArrayList<Shape> getShapes() {
+    public Repository getRepository() {
+        return repository;
+    }
+
+    public List<Shape> getShapes() {
         return shapes;
     }
 
@@ -27,14 +34,15 @@ public class Board {
         if (repository == null) {
             throw new Exception("To save data need assign a repository");
         }
-        repository.Save(shapes);
+        repository.save(shapes);
     }
 
     public void loadData() throws Exception {
         if (repository == null) {
             throw new Exception("To load data need assign a repository");
         }
-        shapes = repository.Get();
+        shapes = repository.load();
+
     }
 
     public void addShape(Shape shape) {
@@ -52,14 +60,38 @@ public class Board {
 
         for (int i = shapes.size() - 1; i >= 0; i--) {
             Shape shape = shapes.get(i);
-
-            if (shape instanceof MainClass) {
-                MainClass mainClass = (MainClass) shape;
-                if (mainClass.isLocated(point))
-                    return (MainClass) shape;
+            if (shape instanceof MainClass && shape.isLocated(point)) {
+                return (MainClass) shape;
             }
         }
         return null;
+    }
+
+    public Shape getShape(Point point) {
+        for (int i = shapes.size() - 1; i >= 0; i--) {
+            Shape shape = shapes.get(i);
+            if (shape.isLocated(point)) {
+                return shape;
+            }
+        }
+        return null;
+    }
+
+    public void selectShape(Point point) {
+        for (int i = shapes.size() - 1; i >= 0; i--) {
+            Shape shape = shapes.get(i);
+            if (shape.isLocated(point)) {
+                if (selectedShapes.contains(shape)) {
+                    selectedShapes.remove(shape);
+                } else {
+                    selectedShapes.add(shape);
+                }
+            }
+        }
+    }
+
+    public boolean isSelected(Shape shape) {
+        return selectedShapes.contains(shape);
     }
 
     public void Undo() {
@@ -68,5 +100,15 @@ public class Board {
         }
         Shape shape = shapes.get(shapes.size() - 1);
         shapes.remove(shape);
+    }
+
+    public void moveSelected(int x, int y) {
+
+        for (Shape shape : selectedShapes) {
+            if (shape instanceof MainClass) {
+                MainClass mainClass = (MainClass) shape;
+                mainClass.move(x, y);
+            }
+        }
     }
 }

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ObjectsToDraw {
+
     private List<Line> lines;
     private List<Polygon> polygons;
     private List<Text> texts;

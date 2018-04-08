@@ -9,8 +9,10 @@ import Domain.Shape.Connectors.Composition;
 import Domain.Shape.Connectors.DirectAssociation;
 import Domain.Shape.Connectors.Inherit;
 import Domain.Shape.Shape;
+import Persistence.File;
 import UI.Canvas.Canvas;
 import UI.MenuBar.MenuBar;
+import UI.ToolBar.ToolBar;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,13 +21,14 @@ import java.util.List;
 
 public class FormMain extends JFrame {
 
-    protected static int width = 700;
-    protected static int height = 500;
+    private static int width = 700;
+    private static int height = 600;
 
     private Board board;
     private UI.Canvas.Canvas canvas;
     private ToolBar toolBar;
-    protected MenuBar menuBar;
+    private MenuBar menuBar;
+    private File fileRepository;
 
     public FormMain() throws Exception {
         super("Class Diagrammer");
@@ -34,11 +37,12 @@ public class FormMain extends JFrame {
     }
 
     private void instanceControls() throws Exception {
+        fileRepository = new File();
         board = new Board();
+        board.setRepository(fileRepository);
         menuBar = new MenuBar(getShapesMenu());
         canvas = new Canvas(board, menuBar);
-        toolBar = new ToolBar();
-
+        toolBar = new ToolBar(board);
     }
 
     private void addControls() throws Exception {
@@ -46,7 +50,6 @@ public class FormMain extends JFrame {
         getContentPane().add(canvas, BorderLayout.CENTER);
         getContentPane().add(toolBar, BorderLayout.NORTH);
         getContentPane().add(menuBar, BorderLayout.WEST);
-
     }
 
     public void showFrame() {

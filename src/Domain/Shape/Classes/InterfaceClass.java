@@ -26,6 +26,11 @@ public class InterfaceClass extends MainClass implements Shape {
     }
 
     @Override
+    public Shape createShape(Point positionPoint, Size size, String text) throws Exception {
+        return new InterfaceClass(positionPoint, size, text);
+    }
+
+    @Override
     public ObjectsToDraw getObjectsToDraw() throws Exception {
         return getObjectsToDraw(getPositionPoint(), getSize());
     }
@@ -66,6 +71,11 @@ public class InterfaceClass extends MainClass implements Shape {
         texts.add(new Text(new Point(position.getX() + size.getWidth(percentageCenterLittleSquare), position.getY()), TEXT_TYPE_CLASS));
 
         return new ObjectsToDraw(lines, null, texts);
+    }
+
+    @Override
+    public boolean isLocated(Point point) {
+        return super.isLocated(point);
     }
 
 }

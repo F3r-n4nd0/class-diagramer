@@ -27,6 +27,11 @@ public class AbstractClass extends MainClass implements Shape {
     }
 
     @Override
+    public Shape createShape(Point positionPoint, Size size, String text) throws Exception {
+        return new AbstractClass(positionPoint, size, text);
+    }
+
+    @Override
     public ObjectsToDraw getObjectsToDraw() throws Exception {
         return getObjectsToDraw(getPositionPoint(), getSize());
     }
@@ -68,4 +73,10 @@ public class AbstractClass extends MainClass implements Shape {
 
         return new ObjectsToDraw(lines, null, texts);
     }
+
+    @Override
+    public boolean isLocated(Point point) {
+        return super.isLocated(point);
+    }
+
 }

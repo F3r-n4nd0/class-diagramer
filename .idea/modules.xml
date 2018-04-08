@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/classdiagrammer.iml" filepath="$PROJECT_DIR$/classdiagrammer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gson.iml" filepath="$PROJECT_DIR$/gson.iml" />
     </modules>
   </component>
 </project>

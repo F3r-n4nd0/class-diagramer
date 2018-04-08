@@ -26,23 +26,22 @@ public class Composition extends Connector implements Shape {
     }
 
     @Override
+    public Shape createShape(MainClass firstClass, MainClass secondClass) throws Exception {
+        return new Composition(firstClass, secondClass);
+    }
+
+    @Override
     public ObjectsToDraw getObjectsToDraw() throws Exception {
-
-        Line line = getLine();
+        Line line = calculateShortLine();
         double angleLine = line.getAngle();
-
         Point point1 = calculatePointsArrow(line.getFinalPoint(), ARROW_LENGTH, angleLine - Math.toRadians(ARROW_ANGLE));
         Point point2 = calculatePointsArrow(line.getFinalPoint(), ARROW_LENGTH, angleLine + Math.toRadians(ARROW_ANGLE));
         Point point3 = calculatePointsArrow(point1, ARROW_LENGTH, angleLine - Math.toRadians(-ARROW_ANGLE));
-
         Polygon polygonInherit = new Polygon(new Point[]{line.getFinalPoint(), point1, point3, point2});
-
         ArrayList<Line> lines = new ArrayList<Line>();
         lines.add(line);
-
         List<Polygon> polygons = new ArrayList<Polygon>();
         polygons.add(polygonInherit);
-
         return new ObjectsToDraw(lines, polygons, null);
     }
 
@@ -52,22 +51,20 @@ public class Composition extends Connector implements Shape {
                 new Point(position.getX(), position.getY() + size.getHeight() / 2),
                 new Point(position.getX() + size.getWidth(), position.getY() + size.getHeight() / 2)
         );
-
         double angleLine = line.getAngle();
-
         Point point1 = calculatePointsArrow(line.getFinalPoint(), ARROW_LENGTH, angleLine - Math.toRadians(ARROW_ANGLE));
         Point point2 = calculatePointsArrow(line.getFinalPoint(), ARROW_LENGTH, angleLine + Math.toRadians(ARROW_ANGLE));
         Point point3 = calculatePointsArrow(point1, ARROW_LENGTH, angleLine - Math.toRadians(-ARROW_ANGLE));
-
         Polygon polygonInherit = new Polygon(new Point[]{line.getFinalPoint(), point1, point3, point2});
-
         ArrayList<Line> lines = new ArrayList<Line>();
         lines.add(line);
-
         List<Polygon> polygons = new ArrayList<Polygon>();
         polygons.add(polygonInherit);
-
         return new ObjectsToDraw(lines, polygons, null);
     }
 
+    @Override
+    public boolean isLocated(Point point) {
+        return super.isLocated(point);
+    }
 }

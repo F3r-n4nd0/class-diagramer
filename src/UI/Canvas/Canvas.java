@@ -1,14 +1,7 @@
 package UI.Canvas;
 
 import Domain.Board.Board;
-import Domain.Shape.Classes.AbstractClass;
-import Domain.Shape.Classes.InterfaceClass;
-import Domain.Shape.Classes.NormalClass;
 import Domain.Shape.Connector;
-import Domain.Shape.Connectors.Association;
-import Domain.Shape.Connectors.Composition;
-import Domain.Shape.Connectors.DirectAssociation;
-import Domain.Shape.Connectors.Inherit;
 import Domain.Shape.MainClass;
 import Domain.Shape.Models.*;
 import Domain.Shape.Models.Point;
@@ -28,44 +21,33 @@ public class Canvas extends JPanel implements MouseListener {
     private Board board;
 
     private Point startPoint;
-    private CanvasDelegate delegate;
+    private MenuShapesDelegate menuDelegate;
 
-    public Canvas(Board board, CanvasDelegate delegate) {
+    public Canvas(Board board, MenuShapesDelegate delegate) {
         this.board = board;
-        this.delegate = delegate;
+        this.menuDelegate = delegate;
         addMouseListener(this);
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         try {
-            Shape selectShape = this.delegate.getSelectShape();
-            if (selectShape != null) {
-                if (selectShape instanceof MainClass) {
-                    if (selectShape instanceof NormalClass) {
-                        String input = JOptionPane.showInputDialog("Please enter the class name");
-                        if (input.length() > 0) {
-                            Point position = new Point(e.getX(), e.getY());
-                            board.addShape(new NormalClass(position, new Size(200, 100), input));
-                        }
-                    }
-                    if (selectShape instanceof InterfaceClass) {
-                        String input = JOptionPane.showInputDialog("Please enter the class name");
-                        if (input != null && input.length() > 0) {
-                            Point position = new Point(e.getX(), e.getY());
-                            board.addShape(new InterfaceClass(position, new Size(200, 100), input));
-                        }
-                    }
-                    if (selectShape instanceof AbstractClass) {
-                        String input = JOptionPane.showInputDialog("Please enter the class name");
-                        if (input.length() > 0) {
-                            Point position = new Point(e.getX(), e.getY());
-                            board.addShape(new InterfaceClass(position, new Size(200, 100), input));
-                        }
-                    }
-                    this.delegate.deselectAll();
-                    repaint();
+            Shape selectShape = this.menuDelegate.getSelectShape();
+            if (selectShape != null && selectShape instanceof MainClass) {
+
+                MainClass mainClass = (MainClass) selectShape;
+                String input = JOptionPane.showInputDialog("Please enter the class name");
+                if (input != null && input.length() > 0) {
+                    Shape shape = mainClass.createShape(
+                            new Point(e.getX(), e.getY()),
+                            new Size(200, 100), input);
+                    board.addShape(shape);
                 }
+                this.menuDelegate.deselectAll();
+                repaint();
+            } else {
+                board.selectShape(new Point(e.getX(), e.getY()));
+                repaint();
             }
 
         } catch (Exception e1) {
@@ -75,9 +57,14 @@ public class Canvas extends JPanel implements MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        Shape selectShape = this.delegate.getSelectShape();
+        Shape selectShape = this.menuDelegate.getSelectShape();
         if (selectShape != null) {
             if (selectShape instanceof Connector && startPoint == null) {
+                startPoint = new Point(e.getX(), e.getY());
+            }
+        } else {
+            Shape shape = board.getShape(new Point(e.getX(), e.getY()));
+            if (board.isSelected(shape)) {
                 startPoint = new Point(e.getX(), e.getY());
             }
         }
@@ -86,40 +73,25 @@ public class Canvas extends JPanel implements MouseListener {
     @Override
     public void mouseReleased(MouseEvent e) {
         try {
-            Shape selectShape = this.delegate.getSelectShape();
-            if (selectShape != null && startPoint != null) {
+            Shape selectShape = this.menuDelegate.getSelectShape();
+            if (selectShape == null && startPoint != null) {
+                int x = e.getX() - startPoint.getX();
+                int y = e.getY() - startPoint.getY();
+                board.moveSelected(x, y);
+                this.startPoint = null;
+                repaint();
 
-                if (selectShape instanceof Connector) {
-                    if (selectShape instanceof Inherit) {
-                        MainClass firstClass = board.getMainClass(startPoint);
-                        MainClass secondClass = board.getMainClass(new Point(e.getX(), e.getY()));
-                        if (firstClass != null && secondClass != null) {
-                            board.addShape(new Inherit(firstClass, secondClass));
-                        }
-                    }
-                    if (selectShape instanceof Association) {
-                        MainClass firstClass = board.getMainClass(startPoint);
-                        MainClass secondClass = board.getMainClass(new Point(e.getX(), e.getY()));
-                        if (firstClass != null && secondClass != null) {
-                            board.addShape(new Association(firstClass, secondClass));
-                        }
-                    }
-                    if (selectShape instanceof DirectAssociation) {
-                        MainClass firstClass = board.getMainClass(startPoint);
-                        MainClass secondClass = board.getMainClass(new Point(e.getX(), e.getY()));
-                        if (firstClass != null && secondClass != null) {
-                            board.addShape(new DirectAssociation(firstClass, secondClass));
-                        }
-                    }
-                    if (selectShape instanceof Composition) {
-                        MainClass firstClass = board.getMainClass(startPoint);
-                        MainClass secondClass = board.getMainClass(new Point(e.getX(), e.getY()));
-                        if (firstClass != null && secondClass != null) {
-                            board.addShape(new Composition(firstClass, secondClass));
-                        }
-                    }
+            }
+            if (selectShape != null && startPoint != null && selectShape instanceof Connector) {
+
+                Connector connector = (Connector) selectShape;
+                MainClass firstClass = board.getMainClass(startPoint);
+                MainClass secondClass = board.getMainClass(new Point(e.getX(), e.getY()));
+                if (firstClass != null && secondClass != null) {
+                    Shape shape = connector.createShape(firstClass, secondClass);
+                    board.addShape(shape);
                     this.startPoint = null;
-                    this.delegate.deselectAll();
+                    this.menuDelegate.deselectAll();
                     repaint();
                 }
             }
@@ -143,6 +115,12 @@ public class Canvas extends JPanel implements MouseListener {
         super.paint(g);
         try {
             for (Shape shape : board.getShapes()) {
+
+                if (board.isSelected(shape)) {
+                    g.setColor(Color.BLUE);
+                } else {
+                    g.setColor(Color.BLACK);
+                }
 
                 ObjectsToDraw ojbToDraw = shape.getObjectsToDraw();
 

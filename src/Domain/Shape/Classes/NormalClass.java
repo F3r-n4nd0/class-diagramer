@@ -17,6 +17,11 @@ public class NormalClass extends MainClass implements Shape {
         super(positionPoint, size, text);
     }
 
+    @Override
+    public Shape createShape(Point positionPoint, Size size, String text) throws Exception {
+        return new NormalClass(positionPoint, size, text);
+    }
+
     public NormalClass(String text) throws Exception {
         super(new Point(0, 0), new Size(0, 0), text);
     }
@@ -45,6 +50,11 @@ public class NormalClass extends MainClass implements Shape {
         texts.add(new Text(point, getText()));
 
         return new ObjectsToDraw(lines, null, texts);
+    }
+
+    @Override
+    public boolean isLocated(Point point) {
+        return super.isLocated(point);
     }
 
 

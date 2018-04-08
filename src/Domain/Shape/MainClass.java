@@ -3,7 +3,9 @@ package Domain.Shape;
 import Domain.Shape.Models.Point;
 import Domain.Shape.Models.Size;
 
-public abstract class MainClass {
+import java.io.Serializable;
+
+public abstract class MainClass implements Serializable {
 
     private Point positionPoint;
     private Size size;
@@ -24,6 +26,8 @@ public abstract class MainClass {
         this.text = text;
     }
 
+    public abstract Shape createShape(Point positionPoint, Size size, String text) throws Exception;
+
     public Point getPositionPoint() {
         return positionPoint;
     }
@@ -40,26 +44,28 @@ public abstract class MainClass {
         return text;
     }
 
-
     protected Point[] getUnionPoints() {
 
         Point point1 = new Point(positionPoint.getX() + size.getWidth(50), positionPoint.getY());
         Point point2 = new Point(positionPoint.getX(), positionPoint.getY() + size.getHeight(50));
         Point point3 = new Point(positionPoint.getX() + size.getWidth(50), positionPoint.getY() + size.getHeight());
         Point point4 = new Point(positionPoint.getX() + size.getWidth(), positionPoint.getY() + size.getHeight(50));
-
         return new Point[]{point1, point2, point3, point4};
+
     }
 
-
-    public boolean isLocated(Point point) {
+    protected boolean isLocated(Point point) {
         return (isBeetween(point.getX(), positionPoint.getX(), (positionPoint.getX() + size.getWidth())) &&
-                (isBeetween(point.getY(), positionPoint.getY(), (positionPoint.getY() + size.getHeight()))));
+                isBeetween(point.getY(), positionPoint.getY(), (positionPoint.getY() + size.getHeight())));
 
     }
 
-    private boolean isBeetween(int value, int first, int second) {
+    protected boolean isBeetween(int value, int first, int second) {
         return first <= value && value <= second;
     }
 
+    public void move(int x, int y) {
+        Point point = new Point(positionPoint.getX() + x, positionPoint.getY() + y);
+        positionPoint = point;
+    }
 }
