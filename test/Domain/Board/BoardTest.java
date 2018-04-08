@@ -20,8 +20,9 @@ class BoardTest {
 
         try {
             new Board();
-            fail("Delegate actions for board can't be null.");
+
         } catch (Exception e) {
+            fail(e.getMessage());
         }
 
         try {
