@@ -34,7 +34,7 @@ public class FormMain extends JFrame {
         Board board = new Board();
         menuBar = new MenuBar(getShapesMenu());
         canvas = new Canvas(board, menuBar);
-        toolBar = new ToolBar(board);
+        toolBar = new ToolBar(board, menuBar);
     }
 
     private void addControls() throws Exception {

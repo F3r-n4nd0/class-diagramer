@@ -1,7 +1,15 @@
 package UI.ToolBar;
 
 import Domain.Board.Board;
+import Domain.Shape.Classes.AbstractClass;
+import Domain.Shape.Classes.InterfaceClass;
+import Domain.Shape.Classes.NormalClass;
+import Domain.Shape.Connectors.Association;
+import Domain.Shape.Connectors.Composition;
+import Domain.Shape.Connectors.DirectAssociation;
+import Domain.Shape.Connectors.Inherit;
 import Persistence.File;
+import UI.MenuBar.MenuBar;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -14,12 +22,13 @@ public class ToolBar extends JMenuBar {
     JMenu menu;
     JMenuItem menuItem;
     Board board;
-
+    MenuBar menuBar;
 
     private String lastPath = ".";
 
-    public ToolBar(Board board) {
+    public ToolBar(Board board, MenuBar menuBar) {
         this.board = board;
+        this.menuBar = menuBar;
         LoadMenu();
     }
 
@@ -93,13 +102,13 @@ public class ToolBar extends JMenuBar {
         menu = new JMenu("Option");
         add(menu);
 
-        addMenuItem(menu, e -> board.clean(), "Normal Class", KeyEvent.VK_N, false);
-        addMenuItem(menu, e -> board.clean(), "Interface Class", KeyEvent.VK_I, false);
-        addMenuItem(menu, e -> board.clean(), "Abstract Class", KeyEvent.VK_A, false);
-        addMenuItem(menu, e -> board.clean(), "Association Connector", KeyEvent.VK_S, false);
-        addMenuItem(menu, e -> board.clean(), "Composition Connector", KeyEvent.VK_C, false);
-        addMenuItem(menu, e -> board.clean(), "Direct Association Connector", KeyEvent.VK_D, false);
-        addMenuItem(menu, e -> board.clean(), "Inherit Connector", KeyEvent.VK_H, false);
+        addMenuItem(menu, e -> menuBar.Select(NormalClass.class), "Normal Class", KeyEvent.VK_N, false);
+        addMenuItem(menu, e -> menuBar.Select(InterfaceClass.class), "Interface Class", KeyEvent.VK_I, false);
+        addMenuItem(menu, e -> menuBar.Select(AbstractClass.class), "Abstract Class", KeyEvent.VK_A, false);
+        addMenuItem(menu, e -> menuBar.Select(Association.class), "Association Connector", KeyEvent.VK_S, false);
+        addMenuItem(menu, e -> menuBar.Select(Composition.class), "Composition Connector", KeyEvent.VK_C, false);
+        addMenuItem(menu, e -> menuBar.Select(DirectAssociation.class), "Direct Association Connector", KeyEvent.VK_D, false);
+        addMenuItem(menu, e -> menuBar.Select(Inherit.class), "Inherit Connector", KeyEvent.VK_H, false);
 
         // horizontal space
         add(Box.createHorizontalGlue());

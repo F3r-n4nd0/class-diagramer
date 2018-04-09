@@ -51,6 +51,7 @@ public class MenuBar extends JPanel implements MenuSelectShapeDelegate, MenuShap
         }
         buttonSelected = buttonShape;
         buttonSelected.isSelected = true;
+        buttonSelected.repaint();
     }
 
     @Override
@@ -67,4 +68,27 @@ public class MenuBar extends JPanel implements MenuSelectShapeDelegate, MenuShap
         buttonSelected.repaint();
         buttonSelected = null;
     }
+
+    public void Select(Class<?> mainClass) {
+        if (buttonSelected != null) {
+            buttonSelected.isSelected = false;
+            buttonSelected.repaint();
+        }
+        ShapeButton buttonShape = findShapeButton(mainClass);
+        if (buttonShape != null) {
+            buttonSelected = buttonShape;
+            buttonSelected.isSelected = true;
+            buttonSelected.repaint();
+        }
+    }
+
+    private ShapeButton findShapeButton(Class<?> shapeClass) {
+        for (ShapeButton shapeButton : shapesMenuButtons) {
+            if (shapeClass.isInstance(shapeButton.getShape())) {
+                return shapeButton;
+            }
+        }
+        return null;
+    }
+
 }
