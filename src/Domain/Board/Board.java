@@ -49,7 +49,7 @@ public class Board {
             throw new Exception("To load data need assign a repository");
         }
         shapes = repository.load();
-
+        repaint();
     }
 
     public void addShape(Shape shape) {

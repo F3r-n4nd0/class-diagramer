@@ -1,8 +1,10 @@
 package UI.ToolBar;
 
 import Domain.Board.Board;
+import Persistence.File;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -11,8 +13,17 @@ public class ToolBar extends JMenuBar {
 
     JMenu menu;
     JMenuItem menuItem;
+    Board board;
+
+
+    private String lastPath = ".";
 
     public ToolBar(Board board) {
+        this.board = board;
+        LoadMenu();
+    }
+
+    private void LoadMenu() {
         menu = new JMenu("File");
         add(menu);
 
@@ -23,7 +34,11 @@ public class ToolBar extends JMenuBar {
         menu.add(menuItem);
         menuItem.addActionListener(e -> {
             try {
-                board.loadData();
+                String filename = ChooseFile("Open");
+                if (filename != "") {
+                    board.setRepository(new File(filename));
+                    board.loadData();
+                }
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
@@ -34,9 +49,17 @@ public class ToolBar extends JMenuBar {
         menu.add(menuItem);
         menuItem.addActionListener(e -> {
             try {
-                board.saveData();
-            } catch (Exception ex) {
-                ex.printStackTrace();
+                if (board.getRepository() != null) {
+                    board.saveData();
+                } else {
+                    String filename = ChooseFile("Save");
+                    if (filename != "") {
+                        board.setRepository(new File(filename));
+                        board.saveData();
+                    }
+                }
+            } catch (Exception e1) {
+                e1.printStackTrace();
             }
         });
 
@@ -45,7 +68,11 @@ public class ToolBar extends JMenuBar {
         menu.add(menuItem);
         menuItem.addActionListener(e -> {
             try {
-                //board.saveData();
+                String filename = ChooseFile("Save As");
+                if (filename != "") {
+                    board.setRepository(new File(filename));
+                    board.saveData();
+                }
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -83,8 +110,25 @@ public class ToolBar extends JMenuBar {
 
         menuItem = new JMenuItem("About");
         menu.add(menuItem);
-        //addMenuItem(menu, e -> openAbout, "Inherit Connector", 'H', false);
+    }
 
+    private String ChooseFile(String save) {
+        JFileChooser chooser = new JFileChooser(lastPath);
+        chooser.setFileFilter(new FileNameExtensionFilter("data file", "data"));
+        int retval = chooser.showDialog(null, save);
+        if (retval == JFileChooser.APPROVE_OPTION) {
+            java.io.File theFile = chooser.getSelectedFile();
+            if (theFile != null) {
+                if (!theFile.isDirectory()) {
+                    String filename = chooser.getSelectedFile().getAbsolutePath();
+                    if (!filename.endsWith(".data"))
+                        filename += ".data";
+                    lastPath = chooser.getSelectedFile().getPath();
+                    return filename;
+                }
+            }
+        }
+        return "";
     }
 
     private void addMenuItem(JMenu menu, ToolBarListener listener, String name, int key, boolean type) {

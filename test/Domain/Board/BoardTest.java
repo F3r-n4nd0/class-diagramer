@@ -67,6 +67,7 @@ class BoardTest {
             public List<Shape> load() throws Exception {
                 return this.shapes;
             }
+
         };
 
         board.setRepository(respository);

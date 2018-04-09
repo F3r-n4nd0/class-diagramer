@@ -45,10 +45,14 @@ public class Inherit extends Connector implements Shape {
 
     @Override
     public ObjectsToDraw getObjectsToDraw(Point position, Size size) throws Exception {
+
+        int y = Math.round((float) position.getY() + (float) (size.getHeight() / 2.0));
+
         Line line = new Line(
-                new Point(position.getX(), position.getY() + size.getHeight() / 2),
-                new Point(position.getX() + size.getWidth(), position.getY() + size.getHeight() / 2)
+                new Point(position.getX(), y),
+                new Point(position.getX() + size.getWidth(), y)
         );
+
         double angleLine = line.getAngle();
         Point point1 = calculatePointsArrow(line.getFinalPoint(), ARROW_LENGTH, angleLine - Math.toRadians(ARROW_ANGLE));
         Point point2 = calculatePointsArrow(line.getFinalPoint(), ARROW_LENGTH, angleLine + Math.toRadians(ARROW_ANGLE));

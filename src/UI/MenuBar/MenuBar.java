@@ -11,7 +11,7 @@ import java.util.List;
 
 public class MenuBar extends JPanel implements MenuSelectShapeDelegate, MenuShapesDelegate {
 
-    public static final int WIDTH_MENU = 130;
+    public static final int WIDTH_MENU = 150;
 
     private MenuShapeButtonListener menuButtonListener;
     private List<ShapeButton> shapesMenuButtons;

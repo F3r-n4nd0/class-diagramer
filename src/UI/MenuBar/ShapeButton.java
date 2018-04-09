@@ -12,7 +12,7 @@ import java.awt.geom.Rectangle2D;
 
 public class ShapeButton extends JButton {
 
-    public static final int DISTANCE_PADDING = 15;
+    public static final int DISTANCE_PADDING = 20;
 
     private Shape shape;
     public Boolean isSelected;

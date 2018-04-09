@@ -54,8 +54,8 @@ public abstract class Connector implements Serializable {
     }
 
     protected Point calculateMiddlePoint(Point point1, Point point2) {
-        int x = (point1.getX() + point2.getX()) / 2;
-        int y = (point1.getY() + point2.getY()) / 2;
+        int x = (int) Math.round((point1.getX() + point2.getX()) / 2.0);
+        int y = (int) Math.round((point1.getY() + point2.getY()) / 2.0);
         return new Point(x, y);
     }
 

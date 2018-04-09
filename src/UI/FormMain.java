@@ -9,7 +9,6 @@ import Domain.Shape.Connectors.Composition;
 import Domain.Shape.Connectors.DirectAssociation;
 import Domain.Shape.Connectors.Inherit;
 import Domain.Shape.Shape;
-import Persistence.File;
 import UI.Canvas.Canvas;
 import UI.MenuBar.MenuBar;
 import UI.ToolBar.ToolBar;
@@ -32,9 +31,7 @@ public class FormMain extends JFrame {
     }
 
     private void instanceControls() throws Exception {
-        File fileRepository = new File();
         Board board = new Board();
-        board.setRepository(fileRepository);
         menuBar = new MenuBar(getShapesMenu());
         canvas = new Canvas(board, menuBar);
         toolBar = new ToolBar(board);
