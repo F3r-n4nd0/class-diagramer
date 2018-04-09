@@ -65,7 +65,6 @@ public abstract class MainClass implements Serializable {
     }
 
     public void move(int x, int y) {
-        Point point = new Point(positionPoint.getX() + x, positionPoint.getY() + y);
-        positionPoint = point;
+        positionPoint = new Point(positionPoint.getX() + x, positionPoint.getY() + y);
     }
 }

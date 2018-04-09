@@ -6,18 +6,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.lang.reflect.Method;
 
 public class ToolBar extends JMenuBar {
-
-    private Board board;
 
     JMenu menu;
     JMenuItem menuItem;
 
     public ToolBar(Board board) {
-        this.board = board;
-
         menu = new JMenu("File");
         add(menu);
 

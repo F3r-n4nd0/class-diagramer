@@ -21,14 +21,9 @@ import java.util.List;
 
 public class FormMain extends JFrame {
 
-    private static int width = 700;
-    private static int height = 600;
-
-    private Board board;
     private UI.Canvas.Canvas canvas;
     private ToolBar toolBar;
     private MenuBar menuBar;
-    private File fileRepository;
 
     public FormMain() throws Exception {
         super("Class Diagrammer");
@@ -37,13 +32,12 @@ public class FormMain extends JFrame {
     }
 
     private void instanceControls() throws Exception {
-        fileRepository = new File();
-        board = new Board();
+        File fileRepository = new File();
+        Board board = new Board();
         board.setRepository(fileRepository);
         menuBar = new MenuBar(getShapesMenu());
         canvas = new Canvas(board, menuBar);
         toolBar = new ToolBar(board);
-        ;
     }
 
     private void addControls() throws Exception {
@@ -54,7 +48,8 @@ public class FormMain extends JFrame {
     }
 
     public void showFrame() {
-        setSize(width, height);
+        setSize(700, 600);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
@@ -71,5 +66,4 @@ public class FormMain extends JFrame {
         shapesMenu.add(new Inherit());
         return shapesMenu;
     }
-
 }

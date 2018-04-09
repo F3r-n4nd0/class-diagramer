@@ -14,9 +14,9 @@ import java.util.List;
 public class AbstractClass extends MainClass implements Shape {
 
 
-    public static final String TEXT_TYPE_CLASS = "A";
-    public static final int PERCENTAGES_START_DETAIL_SQUARE = 80;
-    public static final int PERCENTAGE_FINISH_DETAIL_SQUARE = 96;
+    private static final String TEXT_TYPE_CLASS = "A";
+    private static final int PERCENTAGES_START_DETAIL_SQUARE = 80;
+    private static final int PERCENTAGE_FINISH_DETAIL_SQUARE = 96;
 
     public AbstractClass(Point positionPoint, Size size, String text) throws Exception {
         super(positionPoint, size, text);

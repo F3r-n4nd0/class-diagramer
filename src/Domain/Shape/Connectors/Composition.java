@@ -14,8 +14,8 @@ import java.util.List;
 
 public class Composition extends Connector implements Shape {
 
-    public static final int ARROW_LENGTH = 12;
-    public static final int ARROW_ANGLE = 25;
+    private static final int ARROW_LENGTH = 12;
+    private static final int ARROW_ANGLE = 25;
 
     public Composition(MainClass firstClass, MainClass secondClass) throws Exception {
         super(firstClass, secondClass);
