@@ -20,12 +20,13 @@ import java.awt.geom.Rectangle2D;
 public class Canvas extends JPanel implements MouseListener, ActionCanvas {
 
     private Board board;
-
     private Point startPoint;
+
     private MenuShapesDelegate menuDelegate;
 
     public Canvas(Board board, MenuShapesDelegate delegate) {
         this.board = board;
+        this.board.setDelegateCanvas(this);
         this.menuDelegate = delegate;
         addMouseListener(this);
     }
