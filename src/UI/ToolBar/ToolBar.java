@@ -117,7 +117,8 @@ public class ToolBar extends JMenuBar {
         menu = new JMenu("Help");
         add(menu);
 
-        menuItem = new JMenuItem("About");
+        addMenuItem(menu, e -> menuBar.openAbout(), "About", 'H', true);
+
         menu.add(menuItem);
     }
 

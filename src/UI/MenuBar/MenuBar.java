@@ -2,6 +2,7 @@ package UI.MenuBar;
 
 import Domain.Shape.Shape;
 import UI.Canvas.MenuShapesDelegate;
+import UI.FormAbout;
 
 import javax.swing.*;
 import java.awt.*;
@@ -89,6 +90,12 @@ public class MenuBar extends JPanel implements MenuSelectShapeDelegate, MenuShap
             }
         }
         return null;
+    }
+
+    public void openAbout(){
+        FormAbout aboutform = new FormAbout();
+        aboutform.showFrameAbout();
+        aboutform.addContent();
     }
 
 }
