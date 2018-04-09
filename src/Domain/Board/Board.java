@@ -6,6 +6,7 @@ import Domain.Shape.Shape;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class Board {
 
@@ -13,6 +14,7 @@ public class Board {
     private List<Shape> selectedShapes;
     private Repository repository;
     private ActionCanvas delegateCanvas;
+    private Stack<Shape> listShapes = new Stack<>();
 
     public Board() {
         this.shapes = new ArrayList<Shape>();
@@ -104,21 +106,36 @@ public class Board {
             return;
         }
         Shape shape = shapes.get(shapes.size() - 1);
+        listShapes.push(shapes.get(shapes.size() - 1));
         shapes.remove(shape);
+        repaint();
+    }
 
-        if (this.delegateCanvas != null) {
-            this.delegateCanvas.repaintCanvas();
+    public void redo(){
+        if (listShapes.isEmpty()) {
+            return;
         }
+            shapes.add(listShapes.pop());
+            repaint();
+    }
 
+    public void clean(){
+        shapes.clear();
+        repaint();
     }
 
     public void moveSelected(int x, int y) {
-
         for (Shape shape : selectedShapes) {
             if (shape instanceof MainClass) {
                 MainClass mainClass = (MainClass) shape;
                 mainClass.move(x, y);
             }
+        }
+    }
+
+    private void repaint(){
+        if (this.delegateCanvas != null) {
+            this.delegateCanvas.repaintCanvas();
         }
     }
 }

@@ -25,7 +25,6 @@ public class ToolBar extends JMenuBar {
         menuItem.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         menu.add(menuItem);
 
-
         menuItem = new JMenuItem("Open");
         menuItem.setAccelerator(KeyStroke.getKeyStroke('O', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         menu.add(menuItem);
@@ -48,10 +47,21 @@ public class ToolBar extends JMenuBar {
             }
         });
 
+        menuItem = new JMenuItem("Save As");
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('G', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        menu.add(menuItem);
+        menuItem.addActionListener(e -> {
+            try {
+                //board.saveData();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
         menu.add(new JSeparator());
 
         menuItem = new JMenuItem("Exit");
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('E', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('E', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         menu.add(menuItem);
         menuItem.addActionListener(e -> {
             try {
@@ -66,7 +76,7 @@ public class ToolBar extends JMenuBar {
         add(menu);
 
         menuItem = new JMenuItem("Undo");
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('U', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('U', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         menu.add(menuItem);
         menuItem.addActionListener(e -> {
             try {
@@ -77,11 +87,22 @@ public class ToolBar extends JMenuBar {
         });
 
         menuItem = new JMenuItem("Redo");
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         menu.add(menuItem);
         menuItem.addActionListener(e -> {
             try {
-                //board.redo();
+                board.redo();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        menuItem = new JMenuItem("Clear");
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('D', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        menu.add(menuItem);
+        menuItem.addActionListener(e -> {
+            try {
+                board.clean();
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -94,30 +115,79 @@ public class ToolBar extends JMenuBar {
         menuItem = new JMenuItem("Normal Class");
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.ALT_MASK));
         menu.add(menuItem);
+        menuItem.addActionListener(e -> {
+            try {
+                //method
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
 
         menuItem = new JMenuItem("Interface Class");
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, ActionEvent.ALT_MASK));
         menu.add(menuItem);
+        menuItem.addActionListener(e -> {
+            try {
+                //method
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
 
         menuItem = new JMenuItem("Abstract Class");
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.ALT_MASK));
         menu.add(menuItem);
+        menuItem.addActionListener(e -> {
+            try {
+                //method
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
 
         menuItem = new JMenuItem("Association");
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.ALT_MASK));
         menu.add(menuItem);
+        menuItem.addActionListener(e -> {
+            try {
+                //method
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
 
         menuItem = new JMenuItem("Composition");
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.ALT_MASK));
         menu.add(menuItem);
+        menuItem.addActionListener(e -> {
+            try {
+                //method
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
 
         menuItem = new JMenuItem("Direct Association");
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.ALT_MASK));
         menu.add(menuItem);
+        menuItem.addActionListener(e -> {
+            try {
+                //method
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
 
         menuItem = new JMenuItem("Inherit");
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, ActionEvent.ALT_MASK));
         menu.add(menuItem);
+        menuItem.addActionListener(e -> {
+            try {
+                //method
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
 
         // horizontal space
         add(Box.createHorizontalGlue());
@@ -129,5 +199,6 @@ public class ToolBar extends JMenuBar {
         menuItem = new JMenuItem("About");
         menu.add(menuItem);
 //        menuItem.addActionListener(new FormMain.NewFileListener());
+
     }
 }
