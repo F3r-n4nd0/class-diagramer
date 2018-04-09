@@ -12,10 +12,15 @@ public class Board {
     private List<Shape> shapes;
     private List<Shape> selectedShapes;
     private Repository repository;
-    
-    public Board() throws Exception {
+    private ActionCanvas delegateCanvas;
+
+    public Board() {
         this.shapes = new ArrayList<Shape>();
         this.selectedShapes = new ArrayList<Shape>();
+    }
+
+    public void setDelegateCanvas(ActionCanvas delegateCanvas) {
+        this.delegateCanvas = delegateCanvas;
     }
 
     public void setRepository(Repository repository) {
@@ -100,6 +105,10 @@ public class Board {
         }
         Shape shape = shapes.get(shapes.size() - 1);
         shapes.remove(shape);
+
+        if (this.delegateCanvas != null) {
+            this.delegateCanvas.repaintCanvas();
+        }
 
     }
 
