@@ -3,8 +3,10 @@ package UI.ToolBar;
 import Domain.Board.Board;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 public class ToolBar extends JMenuBar {
 
@@ -13,61 +15,109 @@ public class ToolBar extends JMenuBar {
     public ToolBar(Board board) {
         this.board = board;
 
-
         JMenu menu;
-        JMenuItem mi;
+        JMenuItem menuItem;
 
         menu = new JMenu("File");
         add(menu);
 
-        mi = new JMenuItem("New");
-        menu.add(mi);
-//        mi.addActionListener(new FormMain.NewFileListener());
+        menuItem = new JMenuItem("New");
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        menu.add(menuItem);
 
-        mi = new JMenuItem("Open");
-        menu.add(mi);
-        mi.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    board.loadData();
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                }
+
+        menuItem = new JMenuItem("Open");
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('O', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        menu.add(menuItem);
+        menuItem.addActionListener(e -> {
+            try {
+                board.loadData();
+            } catch (Exception e1) {
+                e1.printStackTrace();
             }
         });
 
-        mi = new JMenuItem("save");
-        menu.add(mi);
-        mi.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    board.saveData();
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                }
+        menuItem = new JMenuItem("Save");
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        menu.add(menuItem);
+        menuItem.addActionListener(e -> {
+            try {
+                board.saveData();
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
         });
-
-        mi = new JMenuItem("save As");
-        menu.add(mi);
-//        mi.addActionListener(new FormMain.NewFileListener());
 
         menu.add(new JSeparator());
 
-//        exitAction = new FormMain.ExitListener();
-        mi = new JMenuItem("Exit");
-        menu.add(mi);
-//        mi.addActionListener(exitAction);
+        menuItem = new JMenuItem("Exit");
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('E', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
+        menu.add(menuItem);
+        menuItem.addActionListener(e -> {
+            try {
+                System.exit(0);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        // option menu
+        menu = new JMenu("Edit");
+        add(menu);
+
+        menuItem = new JMenuItem("Undo");
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('U', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
+        menu.add(menuItem);
+        menuItem.addActionListener(e -> {
+            try {
+                board.undo();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        menuItem = new JMenuItem("Redo");
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
+        menu.add(menuItem);
+        menuItem.addActionListener(e -> {
+            try {
+                //board.redo();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
 
         // option menu
         menu = new JMenu("Option");
         add(menu);
 
-        mi = new JMenuItem("Color");
-        menu.add(mi);
-//        mi.addActionListener(new FormMain.NewFileListener());
+        menuItem = new JMenuItem("Normal Class");
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.ALT_MASK));
+        menu.add(menuItem);
+
+        menuItem = new JMenuItem("Interface Class");
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, ActionEvent.ALT_MASK));
+        menu.add(menuItem);
+
+        menuItem = new JMenuItem("Abstract Class");
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.ALT_MASK));
+        menu.add(menuItem);
+
+        menuItem = new JMenuItem("Association");
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.ALT_MASK));
+        menu.add(menuItem);
+
+        menuItem = new JMenuItem("Composition");
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.ALT_MASK));
+        menu.add(menuItem);
+
+        menuItem = new JMenuItem("Direct Association");
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.ALT_MASK));
+        menu.add(menuItem);
+
+        menuItem = new JMenuItem("Inherit");
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, ActionEvent.ALT_MASK));
+        menu.add(menuItem);
 
         // horizontal space
         add(Box.createHorizontalGlue());
@@ -76,8 +126,8 @@ public class ToolBar extends JMenuBar {
         menu = new JMenu("Help");
         add(menu);
 
-        mi = new JMenuItem("About");
-        menu.add(mi);
-//        mi.addActionListener(new FormMain.NewFileListener());
+        menuItem = new JMenuItem("About");
+        menu.add(menuItem);
+//        menuItem.addActionListener(new FormMain.NewFileListener());
     }
 }

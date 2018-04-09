@@ -1,5 +1,6 @@
 package UI.Canvas;
 
+import Domain.Board.ActionCanvas;
 import Domain.Board.Board;
 import Domain.Shape.Connector;
 import Domain.Shape.MainClass;
@@ -16,7 +17,7 @@ import java.awt.event.MouseListener;
 import java.awt.geom.Rectangle2D;
 
 
-public class Canvas extends JPanel implements MouseListener {
+public class Canvas extends JPanel implements MouseListener, ActionCanvas {
 
     private Board board;
 
@@ -149,5 +150,7 @@ public class Canvas extends JPanel implements MouseListener {
         }
     }
 
-
+    public void repaintCanvas(){
+        repaint();
+    }
 }

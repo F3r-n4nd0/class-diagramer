@@ -12,7 +12,7 @@ public class Board {
     private List<Shape> shapes;
     private List<Shape> selectedShapes;
     private Repository repository;
-
+    
     public Board() throws Exception {
         this.shapes = new ArrayList<Shape>();
         this.selectedShapes = new ArrayList<Shape>();
@@ -94,12 +94,13 @@ public class Board {
         return selectedShapes.contains(shape);
     }
 
-    public void Undo() {
+    public void undo() {
         if (shapes.isEmpty()) {
             return;
         }
         Shape shape = shapes.get(shapes.size() - 1);
         shapes.remove(shape);
+
     }
 
     public void moveSelected(int x, int y) {
