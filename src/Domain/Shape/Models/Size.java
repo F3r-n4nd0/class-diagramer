@@ -37,5 +37,4 @@ public class Size implements Serializable {
         double length = height * (percentage / (double) 100);
         return (int) length;
     }
-
 }

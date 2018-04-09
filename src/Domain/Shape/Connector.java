@@ -75,5 +75,4 @@ public abstract class Connector implements Serializable {
     protected boolean isBeetween(double value, double first, double second) {
         return first <= value && value <= second;
     }
-
 }

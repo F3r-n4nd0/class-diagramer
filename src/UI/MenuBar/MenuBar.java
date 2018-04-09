@@ -93,9 +93,8 @@ public class MenuBar extends JPanel implements MenuSelectShapeDelegate, MenuShap
     }
 
     public void openAbout(){
-        FormAbout aboutform = new FormAbout();
-        aboutform.showFrameAbout();
-        aboutform.addContent();
+        FormAbout aboutForm = new FormAbout();
+        aboutForm.showFrameAbout();
+        aboutForm.addContent();
     }
-
 }

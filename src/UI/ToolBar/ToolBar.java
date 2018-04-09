@@ -107,7 +107,8 @@ public class ToolBar extends JMenuBar {
         addMenuItem(menu, e -> menuBar.Select(AbstractClass.class), "Abstract Class", KeyEvent.VK_A, false);
         addMenuItem(menu, e -> menuBar.Select(Association.class), "Association Connector", KeyEvent.VK_S, false);
         addMenuItem(menu, e -> menuBar.Select(Composition.class), "Composition Connector", KeyEvent.VK_C, false);
-        addMenuItem(menu, e -> menuBar.Select(DirectAssociation.class), "Direct Association Connector", KeyEvent.VK_D, false);
+        addMenuItem(menu, e -> menuBar.Select(DirectAssociation.class), "Direct Association Connector", KeyEvent
+                .VK_D, false);
         addMenuItem(menu, e -> menuBar.Select(Inherit.class), "Inherit Connector", KeyEvent.VK_H, false);
 
         // horizontal space
@@ -118,8 +119,6 @@ public class ToolBar extends JMenuBar {
         add(menu);
 
         addMenuItem(menu, e -> menuBar.openAbout(), "About", 'H', true);
-
-        menu.add(menuItem);
     }
 
     private String ChooseFile(String save) {
@@ -145,7 +144,8 @@ public class ToolBar extends JMenuBar {
         try {
             menuItem = new JMenuItem(name);
             if (type) {
-                menuItem.setAccelerator(KeyStroke.getKeyStroke(key, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+                menuItem.setAccelerator(KeyStroke.getKeyStroke(key, Toolkit.getDefaultToolkit()
+                        .getMenuShortcutKeyMask()));
             } else {
                 menuItem.setAccelerator(KeyStroke.getKeyStroke(key, ActionEvent.ALT_MASK));
             }

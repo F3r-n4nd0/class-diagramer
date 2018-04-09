@@ -12,5 +12,4 @@ public interface Shape extends Serializable {
     ObjectsToDraw getObjectsToDraw(Point position, Size size) throws Exception;
 
     boolean isLocated(Point point);
-
 }

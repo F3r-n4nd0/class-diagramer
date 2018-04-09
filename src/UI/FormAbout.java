@@ -44,6 +44,4 @@ public class FormAbout extends JFrame {
 
         this.add(texto);
     }
-
-
 }
