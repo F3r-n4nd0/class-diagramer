@@ -64,37 +64,25 @@ public class Board {
     }
 
     public MainClass getMainClass(Point point) {
-
-        for (int i = shapes.size() - 1; i >= 0; i--) {
-            Shape shape = shapes.get(i);
-            if (shape instanceof MainClass && shape.isLocated(point)) {
-                return (MainClass) shape;
-            }
-        }
-        return null;
+        return this.shapes.stream()
+            .filter(shape -> shape instanceof MainClass && shape.isLocated(point))
+            .map(shape -> (MainClass) shape).findFirst().orElse(null);
     }
 
     public Shape getShape(Point point) {
-        for (int i = shapes.size() - 1; i >= 0; i--) {
-            Shape shape = shapes.get(i);
-            if (shape.isLocated(point)) {
-                return shape;
-            }
-        }
-        return null;
+        return shapes.stream().filter(shape -> shape.isLocated(point))
+            .findFirst().orElse(null);
     }
 
     public void selectShape(Point point) {
-        for (int i = shapes.size() - 1; i >= 0; i--) {
-            Shape shape = shapes.get(i);
-            if (shape.isLocated(point)) {
+        shapes.stream().filter(shape -> shape.isLocated(point))
+            .forEach(shape -> {
                 if (selectedShapes.contains(shape)) {
                     selectedShapes.remove(shape);
                 } else {
                     selectedShapes.add(shape);
                 }
-            }
-        }
+            });
     }
 
     public boolean isSelected(Shape shape) {
@@ -115,8 +103,8 @@ public class Board {
         if (listShapes.isEmpty()) {
             return;
         }
-            shapes.add(listShapes.pop());
-            repaint();
+        shapes.add(listShapes.pop());
+        repaint();
     }
 
     public void clean(){
@@ -125,12 +113,9 @@ public class Board {
     }
 
     public void moveSelected(int x, int y) {
-        for (Shape shape : selectedShapes) {
-            if (shape instanceof MainClass) {
-                MainClass mainClass = (MainClass) shape;
-                mainClass.move(x, y);
-            }
-        }
+        selectedShapes.stream()
+            .filter(shape -> shape instanceof MainClass)
+            .forEach(shape -> ((MainClass) shape).move(x, y));
     }
 
     private void repaint(){
