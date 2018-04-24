@@ -55,12 +55,12 @@ public abstract class MainClass implements Serializable {
     }
 
     protected boolean isLocated(Point point) {
-        return (isBeetween(point.getX(), positionPoint.getX(), (positionPoint.getX() + size.getWidth())) &&
-                isBeetween(point.getY(), positionPoint.getY(), (positionPoint.getY() + size.getHeight())));
+        return (isBetween(point.getX(), positionPoint.getX(), (positionPoint.getX() + size.getWidth())) &&
+                isBetween(point.getY(), positionPoint.getY(), (positionPoint.getY() + size.getHeight())));
 
     }
 
-    protected boolean isBeetween(int value, int first, int second) {
+    protected boolean isBetween(int value, int first, int second) {
         return first <= value && value <= second;
     }
 
