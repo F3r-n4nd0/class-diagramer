@@ -17,8 +17,8 @@ public class Board {
     private Stack<Shape> listShapes = new Stack<>();
 
     public Board() {
-        this.shapes = new ArrayList<Shape>();
-        this.selectedShapes = new ArrayList<Shape>();
+        this.shapes = new ArrayList<>(0);
+        this.selectedShapes = new ArrayList<>(0);
     }
 
     public void setDelegateCanvas(ActionCanvas delegateCanvas) {
