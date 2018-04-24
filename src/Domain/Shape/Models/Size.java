@@ -29,12 +29,10 @@ public class Size implements Serializable {
     }
 
     public int getWidth(int percentage) {
-        double length = width * (percentage / (double) 100);
-        return (int) length;
+        return (int) (width * (percentage / (double) 100));
     }
 
     public int getHeight(int percentage) {
-        double length = height * (percentage / (double) 100);
-        return (int) length;
+        return (int) (height * (percentage / (double) 100));
     }
 }
