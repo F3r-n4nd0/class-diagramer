@@ -32,60 +32,15 @@ public class ToolBar extends JMenuBar {
         LoadMenu();
     }
 
+
     private void LoadMenu() {
         menu = new JMenu("File");
         add(menu);
 
         addMenuItem(menu, e -> board.clean(), "New", 'N', true);
-
-        menuItem = new JMenuItem("Open");
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('O', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        menu.add(menuItem);
-        menuItem.addActionListener(e -> {
-            try {
-                String filename = ChooseFile("Open");
-                if (filename != "") {
-                    board.setRepository(new File(filename));
-                    board.loadData();
-                }
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
-        });
-
-        menuItem = new JMenuItem("Save");
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        menu.add(menuItem);
-        menuItem.addActionListener(e -> {
-            try {
-                if (board.getRepository() != null) {
-                    board.saveData();
-                } else {
-                    String filename = ChooseFile("Save");
-                    if (filename != "") {
-                        board.setRepository(new File(filename));
-                        board.saveData();
-                    }
-                }
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
-        });
-
-        menuItem = new JMenuItem("Save As");
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('G', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        menu.add(menuItem);
-        menuItem.addActionListener(e -> {
-            try {
-                String filename = ChooseFile("Save As");
-                if (filename != "") {
-                    board.setRepository(new File(filename));
-                    board.saveData();
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        });
+        addMenuItem(menu, e -> OpenFile(), "Open", 'O', true);
+        addMenuItem(menu, e -> SaveFile(), "Save", 'S', true);
+        addMenuItem(menu, e -> SaveAsFile(), "SaveAs", 'G', true);
 
         menu.add(new JSeparator());
 
@@ -121,6 +76,64 @@ public class ToolBar extends JMenuBar {
         addMenuItem(menu, e -> menuBar.openAbout(), "About", 'H', true);
     }
 
+    private void addMenuItem(JMenu menu, ToolBarListener listener, String name, int key, boolean type) {
+        try {
+            menuItem = new JMenuItem(name);
+            if (type) {
+                menuItem.setAccelerator(KeyStroke.getKeyStroke(key, Toolkit.getDefaultToolkit()
+                        .getMenuShortcutKeyMask()));
+            } else {
+                menuItem.setAccelerator(KeyStroke.getKeyStroke(key, ActionEvent.ALT_MASK));
+            }
+            menu.add(menuItem);
+            menuItem.addActionListener(listener::exec);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void SaveAsFile() {
+        try {
+            String filename = ChooseFile("Save As");
+            if (filename != "") {
+                board.setRepository(new File(filename));
+                board.saveData();
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void SaveFile() {
+        try {
+            if (board.getRepository() != null) {
+                board.saveData();
+            } else {
+                String filename = ChooseFile("Save");
+                if (filename != "") {
+                    board.setRepository(new File(filename));
+                    board.saveData();
+                }
+            }
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    private void OpenFile() {
+        try {
+            String filename = ChooseFile("Open");
+            if (filename != "") {
+                board.setRepository(new File(filename));
+                board.loadData();
+            }
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+    }
+
+
     private String ChooseFile(String save) {
         JFileChooser chooser = new JFileChooser(lastPath);
         chooser.setFileFilter(new FileNameExtensionFilter("data file", "data"));
@@ -140,20 +153,5 @@ public class ToolBar extends JMenuBar {
         return "";
     }
 
-    private void addMenuItem(JMenu menu, ToolBarListener listener, String name, int key, boolean type) {
-        try {
-            menuItem = new JMenuItem(name);
-            if (type) {
-                menuItem.setAccelerator(KeyStroke.getKeyStroke(key, Toolkit.getDefaultToolkit()
-                        .getMenuShortcutKeyMask()));
-            } else {
-                menuItem.setAccelerator(KeyStroke.getKeyStroke(key, ActionEvent.ALT_MASK));
-            }
-            menu.add(menuItem);
-            menuItem.addActionListener(listener::exec);
 
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
 }
