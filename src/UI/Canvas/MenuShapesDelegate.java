@@ -1,10 +1,11 @@
 package UI.Canvas;
 
 import Domain.Shape.Shape;
+import java.util.Optional;
 
 public interface MenuShapesDelegate {
 
-    Shape getSelectShape();
+    Optional<Shape> getSelectShape();
     void deselectAll();
 
 }
