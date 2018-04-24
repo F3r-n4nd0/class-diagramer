@@ -16,13 +16,14 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
+import java.util.Optional;
 import javax.swing.*;
 
 
 public class Canvas extends JPanel implements MouseListener, ActionCanvas {
 
     private Board board;
-    private Point startPoint;
+    private Optional<Point> startPoint = Optional.empty();
 
     private MenuShapesDelegate menuDelegate;
 
@@ -36,24 +37,35 @@ public class Canvas extends JPanel implements MouseListener, ActionCanvas {
     @Override
     public void mouseClicked(MouseEvent e) {
         try {
-            Shape selectShape = this.menuDelegate.getSelectShape();
-            if (selectShape != null && selectShape instanceof MainClass) {
-
-                MainClass mainClass = (MainClass) selectShape;
-                String input = JOptionPane.showInputDialog("Please enter the class name");
-                if (input != null && input.length() > 0) {
-                    Shape shape = mainClass.createShape(
-                            new Point(e.getX(), e.getY()),
-                            new Size(200, 100), input);
-                    board.addShape(shape);
-                }
-                this.menuDelegate.deselectAll();
-                repaint();
-            } else {
-                board.selectShape(new Point(e.getX(), e.getY()));
-                repaint();
+            Optional<Shape>  selectShape = this.menuDelegate.getSelectShape();
+            if (!selectShape.isPresent()) {
+              board.selectShape(new Point(e.getX(), e.getY()));
+              repaint();
+              return;
             }
 
+            if (!(selectShape.get() instanceof MainClass)) {
+                return;
+            }
+
+            MainClass mainClass = (MainClass) selectShape.get();
+            Optional.ofNullable(JOptionPane.showInputDialog("Please enter the class name"))
+                .filter(input -> !input.isEmpty())
+                .ifPresent(input -> {
+                  final Integer DEFAULT_CLASS_WIDTH = 200;
+                  final Integer DEFAULT_CLASS_HEIGHT = 100;
+                  try {
+                    Shape shape  = mainClass.createShape(
+                        new Point(e.getX(), e.getY()),
+                        new Size(DEFAULT_CLASS_WIDTH, DEFAULT_CLASS_HEIGHT), input);
+                    board.addShape(shape);
+                  } catch (Exception e1) {
+                    e1.printStackTrace();
+                  }
+                });
+
+            this.menuDelegate.deselectAll();
+            repaint();
         } catch (Exception e1) {
             e1.printStackTrace();
         }
@@ -61,43 +73,49 @@ public class Canvas extends JPanel implements MouseListener, ActionCanvas {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        Shape selectShape = this.menuDelegate.getSelectShape();
-        if (selectShape != null) {
-            if (selectShape instanceof Connector && startPoint == null) {
-                startPoint = new Point(e.getX(), e.getY());
-            }
-        } else {
-            Shape shape = board.getShape(new Point(e.getX(), e.getY()));
-            if (board.isSelected(shape)) {
-                startPoint = new Point(e.getX(), e.getY());
-            }
+        Optional<Shape> selectShape = this.menuDelegate.getSelectShape();
+        if (selectShape.isPresent() && selectShape.get() instanceof Connector && !startPoint.isPresent()) {
+          startPoint = Optional.of(new Point(e.getX(), e.getY()));
+          return;
+        }
+
+        Shape shape = board.getShape(new Point(e.getX(), e.getY()));
+        if (board.isSelected(shape)) {
+            startPoint = Optional.of(new Point(e.getX(), e.getY()));
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         try {
-            Shape selectShape = this.menuDelegate.getSelectShape();
-            if (selectShape == null && startPoint != null) {
-                int x = e.getX() - startPoint.getX();
-                int y = e.getY() - startPoint.getY();
+            Optional<Shape> selectShape = this.menuDelegate.getSelectShape();
+            final Boolean isPresentShape = selectShape.isPresent();
+            final Boolean isPresentStartPoint = startPoint.isPresent();
+
+            if (!isPresentShape && isPresentStartPoint) {
+                int x = e.getX() - startPoint.get().getX();
+                int y = e.getY() - startPoint.get().getY();
                 board.moveSelected(x, y);
-                this.startPoint = null;
+                this.startPoint = Optional.empty();
                 repaint();
-
+                return;
             }
-            if (selectShape != null && startPoint != null && selectShape instanceof Connector) {
 
-                Connector connector = (Connector) selectShape;
-                MainClass firstClass = board.getMainClass(startPoint);
-                MainClass secondClass = board.getMainClass(new Point(e.getX(), e.getY()));
-                if (firstClass != null && secondClass != null) {
-                    Shape shape = connector.createShape(firstClass, secondClass);
-                    board.addShape(shape);
-                    this.startPoint = null;
-                    this.menuDelegate.deselectAll();
-                    repaint();
-                }
+            if (!isPresentShape || !isPresentStartPoint || !(selectShape.get() instanceof Connector)) {
+                return;
+            }
+
+            MainClass firstClass = board.getMainClass(startPoint.get());
+            MainClass secondClass = board.getMainClass(new Point(e.getX(), e.getY()));
+            Connector connector = (Connector) selectShape.get();
+
+            if (Optional.ofNullable(firstClass).isPresent()
+                && Optional.ofNullable(secondClass).isPresent()) {
+              Shape shape = connector.createShape(firstClass, secondClass);
+              board.addShape(shape);
+              this.startPoint = Optional.empty();
+              this.menuDelegate.deselectAll();
+              repaint();
             }
         } catch (Exception e1) {
             e1.printStackTrace();
