@@ -19,10 +19,6 @@ public class Polygon {
         this.points = points;
     }
 
-    public Point[] getPoints() {
-        return points;
-    }
-
     public int getNumberOfPoints() {
         return points.length;
     }
