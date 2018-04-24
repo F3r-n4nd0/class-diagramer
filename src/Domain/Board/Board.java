@@ -6,6 +6,7 @@ import Domain.Shape.Shape;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Stack;
 
 public class Board {
@@ -38,17 +39,15 @@ public class Board {
     }
 
     public void saveData() throws Exception {
-        if (repository == null) {
-            throw new Exception("To save data need assign a repository");
-        }
-        repository.save(shapes);
+        Optional.ofNullable(repository)
+            .orElseThrow(() -> new Exception("To save data need assign a repository"))
+            .save(shapes);
     }
 
     public void loadData() throws Exception {
-        if (repository == null) {
-            throw new Exception("To load data need assign a repository");
-        }
-        shapes = repository.load();
+        shapes = Optional.ofNullable(repository)
+                    .orElseThrow(() -> new Exception("To save data need assign a repository"))
+                    .load();
         repaint();
     }
 
@@ -119,8 +118,6 @@ public class Board {
     }
 
     private void repaint(){
-        if (this.delegateCanvas != null) {
-            this.delegateCanvas.repaintCanvas();
-        }
+        Optional.ofNullable(delegateCanvas).ifPresent(ActionCanvas::repaintCanvas);
     }
 }
