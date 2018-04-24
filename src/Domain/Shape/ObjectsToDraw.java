@@ -14,29 +14,29 @@ public class ObjectsToDraw {
     private List<Text> texts;
 
     public ObjectsToDraw(List<Line> lines, List<Polygon> polygons, List<Text> texts) {
+        if (lines == null) {
+            lines = new ArrayList<>();
+        }
         this.lines = lines;
+        if (polygons == null) {
+            polygons = new ArrayList<>();
+        }
         this.polygons = polygons;
+        if (texts == null) {
+            texts = new ArrayList<>();
+        }
         this.texts = texts;
     }
 
     public List<Line> getLines() {
-        if (lines == null) {
-            return new ArrayList<Line>();
-        }
         return lines;
     }
 
     public List<Polygon> getPolygons() {
-        if (polygons == null) {
-            return new ArrayList<Polygon>();
-        }
         return polygons;
     }
 
     public List<Text> getTexts() {
-        if (texts == null) {
-            return new ArrayList<Text>();
-        }
         return texts;
     }
 }
