@@ -135,6 +135,10 @@ public class Canvas extends JPanel implements MouseListener, ActionCanvas {
         });
     }
 
+    public void repaintCanvas(){
+        repaint();
+    }
+
     private void selectShape(Board board, Shape shape, Graphics graphics) {
         if (board.isSelected(shape)) {
             graphics.setColor(Color.BLUE);
@@ -170,10 +174,6 @@ public class Canvas extends JPanel implements MouseListener, ActionCanvas {
 
     private void drawPolygons(Graphics graphics, List<Polygon> polygons) {
       polygons.forEach(polygon -> graphics.fillPolygon(polygon.getPointsX(), polygon.getPointsY(), polygon.getNumberOfPoints()));
-    }
-
-    public void repaintCanvas() {
-      repaint();
     }
 
     @Override
