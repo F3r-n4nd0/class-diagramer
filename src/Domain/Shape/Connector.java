@@ -66,13 +66,9 @@ public abstract class Connector implements Serializable {
             double lengthLine1 = new Line(line.getStartPoint(), point).getLength();
             double lengthLine2 = new Line(line.getFinalPoint(), point).getLength();
             double lengthTotal = lengthLine1 + lengthLine2;
-            return isBeetween(lengthTotal, lengthLine - 2, lengthLine + 2);
+            return firstClass.isBetween((int)lengthTotal, (int)lengthLine - 2, (int)lengthLine + 2);
         } catch (Exception e) {
             return false;
         }
-    }
-
-    protected boolean isBeetween(double value, double first, double second) {
-        return first <= value && value <= second;
     }
 }
