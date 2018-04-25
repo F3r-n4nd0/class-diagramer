@@ -4,18 +4,12 @@ import Domain.Board.ActionCanvas;
 import Domain.Board.Board;
 import Domain.Shape.Connector;
 import Domain.Shape.MainClass;
-import Domain.Shape.Models.Line;
 import Domain.Shape.Models.Point;
-import Domain.Shape.Models.Polygon;
 import Domain.Shape.Models.Size;
-import Domain.Shape.Models.Text;
-import Domain.Shape.ObjectsToDraw;
 import Domain.Shape.Shape;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.geom.Rectangle2D;
-import java.util.List;
 import java.util.Optional;
 import javax.swing.*;
 
@@ -127,8 +121,8 @@ public class Canvas extends JPanel implements MouseListener, ActionCanvas {
         super.paint(graphics);
         board.getShapes().forEach(shape -> {
             try {
-              selectShape(board, shape, graphics);
-              drawShape(graphics, shape.getObjectsToDraw());
+              this.selectShape(board, shape, graphics);
+              DrawObjects.drawShapes(graphics, shape.getObjectsToDraw());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -145,35 +139,6 @@ public class Canvas extends JPanel implements MouseListener, ActionCanvas {
         } else {
             graphics.setColor(Color.BLACK);
         }
-    }
-
-    private void drawShape(Graphics graphics, ObjectsToDraw objectsToDraw) {
-      drawLines(graphics, objectsToDraw.getLines());
-      drawTexts(graphics, objectsToDraw.getTexts());
-      drawPolygons(graphics, objectsToDraw.getPolygons());
-    }
-
-    private void drawLines(Graphics graphics, List<Line> lines) {
-        lines.forEach(line -> graphics.drawLine(line.getStartPoint().getX(),
-                                                line.getStartPoint().getY(),
-                                                line.getFinalPoint().getX(),
-                                                line.getFinalPoint().getY()));
-    }
-
-    private void drawTexts(Graphics graphics, List<Text> texts) {
-        texts.forEach(text -> {
-              FontMetrics metrics = graphics.getFontMetrics(graphics.getFont());
-              Rectangle2D rectangle = metrics.getStringBounds(text.getText(), graphics);
-
-              int textWidth = (int) Math.round(rectangle.getWidth() / 2.0);
-              int textHeight = (int) Math.round(rectangle.getHeight() / 2.0);
-
-              graphics.drawString(text.getText(), text.getStartPoint().getX() - textWidth, text.getStartPoint().getY() + textHeight);
-        });
-    }
-
-    private void drawPolygons(Graphics graphics, List<Polygon> polygons) {
-      polygons.forEach(polygon -> graphics.fillPolygon(polygon.getPointsX(), polygon.getPointsY(), polygon.getNumberOfPoints()));
     }
 
     @Override

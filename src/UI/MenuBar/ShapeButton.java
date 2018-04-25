@@ -1,14 +1,12 @@
 package UI.MenuBar;
 
-import Domain.Shape.Models.*;
 import Domain.Shape.Models.Point;
-import Domain.Shape.Models.Polygon;
+import Domain.Shape.Models.Size;
 import Domain.Shape.ObjectsToDraw;
 import Domain.Shape.Shape;
-
-import javax.swing.*;
+import UI.Canvas.DrawObjects;
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
+import javax.swing.*;
 
 public class ShapeButton extends JButton {
 
@@ -39,30 +37,12 @@ public class ShapeButton extends JButton {
 
             Dimension dimension = getSize();
             int TotalPadding = DISTANCE_PADDING * 2;
-            ObjectsToDraw ojbToDraw = shape.getObjectsToDraw(new Point(DISTANCE_PADDING, DISTANCE_PADDING), new Size(dimension.width - TotalPadding, dimension.height - TotalPadding));
+            ObjectsToDraw objectsToDraw = shape.getObjectsToDraw(new Point(DISTANCE_PADDING,
+                DISTANCE_PADDING), new Size(dimension.width - TotalPadding, dimension.height - TotalPadding));
 
-            for (Line line : ojbToDraw.getLines()) {
-                g.drawLine(line.getStartPoint().getX(), line.getStartPoint().getY(), line.getFinalPoint().getX(), line.getFinalPoint().getY());
-            }
-
-            for (Polygon polygon : ojbToDraw.getPolygons()) {
-                g.fillPolygon(polygon.getPointsX(), polygon.getPointsY(), polygon.getNumberOfPoints());
-            }
-
-            for (Text text : ojbToDraw.getTexts()) {
-
-                FontMetrics metrics = g.getFontMetrics(g.getFont());
-                Rectangle2D rectangle = metrics.getStringBounds(text.getText(), g);
-
-                int textWidth = (int) Math.round(rectangle.getWidth() / 2.0);
-                int textHeight = (int) Math.round(rectangle.getHeight() / 2.0);
-
-                g.drawString(text.getText(), text.getStartPoint().getX() - textWidth, text.getStartPoint().getY() + textHeight);
-            }
-
+            DrawObjects.drawShapes(g, objectsToDraw);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 }
