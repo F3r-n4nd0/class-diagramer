@@ -16,7 +16,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Rectangle2D;
 
-
 public class Canvas extends JPanel implements MouseListener, ActionCanvas {
 
     private Board board;
@@ -103,16 +102,6 @@ public class Canvas extends JPanel implements MouseListener, ActionCanvas {
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
-
-    @Override
     public void paint(Graphics g) {
         super.paint(g);
         try {
@@ -151,7 +140,13 @@ public class Canvas extends JPanel implements MouseListener, ActionCanvas {
         }
     }
 
-    public void repaintCanvas(){
+    public void repaintCanvas() {
         repaint();
     }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {}
+
+    @Override
+    public void mouseExited(MouseEvent e) {}
 }
