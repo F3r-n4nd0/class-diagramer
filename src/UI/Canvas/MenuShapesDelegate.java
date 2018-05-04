@@ -1,11 +1,14 @@
 package UI.Canvas;
 
+import Domain.Board.Board;
 import Domain.Shape.Shape;
+import UI.Canvas.MouseDrawinEvents.MouseDrawinEvents;
+
 import java.util.Optional;
 
 public interface MenuShapesDelegate {
 
-    Optional<Shape> getSelectShape();
+    MouseDrawinEvents getMouseEvent(Board board);
     void deselectAll();
 
 }

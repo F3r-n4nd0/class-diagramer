@@ -119,4 +119,5 @@ public abstract class MainClass implements Serializable {
         lines.add(new Line(pointAbstract3, pointAbstract4));
         lines.add(new Line(pointAbstract4, pointAbstract1));
     }
+
 }
