@@ -13,6 +13,7 @@ public class DrawingConnectorEvents implements MouseDrawingEvents {
     private Connector connector;
     private Board board;
     private Point startPoint;
+    private Connector connectorShape;
 
     public DrawingConnectorEvents(Connector connector, Board board) {
         this.connector = connector;
@@ -26,25 +27,48 @@ public class DrawingConnectorEvents implements MouseDrawingEvents {
 
     @Override
     public boolean pressed(int x, int y) {
-        if (startPoint == null)
-            startPoint = new Point(x, y);
-        return false;
+        Optional<MainClass> firstClass = Optional.ofNullable(board.getMainClass(new Point(x, y)));
+        if (!firstClass.isPresent()) {
+            return false;
+        }
+
+        try {
+            if (startPoint == null) {
+                startPoint = new Point(x, y);
+                connectorShape = connector.createConnector(firstClass.get(), null);
+                connectorShape.setTemporalPoint(startPoint);
+                board.addShape(connectorShape);
+            }
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+        return true;
     }
 
     @Override
     public boolean released(int x, int y) {
+        if (startPoint == null) {
+            return false;
+        }
         try {
-
-            Optional<MainClass> firstClass = Optional.ofNullable(board.getMainClass(startPoint));
-            Optional<MainClass> secondClass = Optional.ofNullable(board.getMainClass(new Point(x,y)));
-            if (firstClass.isPresent() && secondClass.isPresent()) {
-                Shape shape = connector.createShape(firstClass.get(), secondClass.get());
-                board.addShape(shape);
+            Optional<MainClass> secondClass = Optional.ofNullable(board.getMainClass(new Point(x, y)));
+            if (secondClass.isPresent()) {
+                connectorShape.setSecondClass(secondClass.get());
+            } else {
+                board.removeShape(connectorShape);
             }
-
         } catch (Exception e1) {
             e1.printStackTrace();
         }
+        return true;
+    }
+
+    @Override
+    public boolean dragged(int x, int y) {
+        if (startPoint == null) {
+            return false;
+        }
+        connectorShape.setTemporalPoint(new Point(x,y));
         return true;
     }
 

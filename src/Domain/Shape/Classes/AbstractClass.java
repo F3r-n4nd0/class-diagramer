@@ -20,7 +20,7 @@ public class AbstractClass extends MainClass implements Shape {
     }
 
     @Override
-    public Shape createShape(Point positionPoint, Size size, String text) throws Exception {
+    public MainClass createMainClass(Point positionPoint, Size size, String text) throws Exception {
         return new AbstractClass(positionPoint, size, text);
     }
 

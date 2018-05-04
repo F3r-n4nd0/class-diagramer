@@ -8,9 +8,10 @@ import UI.Canvas.MouseDrawinEvents.MouseDrawingEvents;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import javax.swing.*;
 
-public class Canvas extends JPanel implements MouseListener, ActionCanvas {
+public class Canvas extends JPanel implements MouseListener, MouseMotionListener, ActionCanvas {
 
     private Board board;
     private MenuShapesDelegate menuDelegate;
@@ -20,6 +21,7 @@ public class Canvas extends JPanel implements MouseListener, ActionCanvas {
         this.board.setDelegateCanvas(this);
         this.menuDelegate = delegate;
         addMouseListener(this);
+        addMouseMotionListener(this);
     }
 
     private MouseDrawingEvents mouseDrawinEvents;
@@ -41,6 +43,13 @@ public class Canvas extends JPanel implements MouseListener, ActionCanvas {
             mouseDrawinEvents = menuDelegate.getMouseEvent(board);
         }
         if (mouseDrawinEvents.pressed(e.getX(), e.getY())) {
+            repaint();
+        }
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        if (mouseDrawinEvents.dragged(e.getX(), e.getY())) {
             repaint();
         }
     }
@@ -84,4 +93,7 @@ public class Canvas extends JPanel implements MouseListener, ActionCanvas {
 
     @Override
     public void mouseExited(MouseEvent e) {}
+
+    @Override
+    public void mouseMoved(MouseEvent e) {}
 }

@@ -14,6 +14,7 @@ public class DrawingClassEvents implements MouseDrawingEvents {
     private MainClass mainClass;
     private Board board;
     private Point startPoint;
+    private MainClass mainShape;
 
     public DrawingClassEvents(MainClass mainClass, Board board) {
         this.mainClass = mainClass;
@@ -27,29 +28,41 @@ public class DrawingClassEvents implements MouseDrawingEvents {
 
     @Override
     public boolean pressed(int x, int y) {
-        if (startPoint == null)
-            startPoint = new Point(x, y);
-
+        try {
+            if (startPoint == null) {
+                startPoint = new Point(x, y);
+                mainShape = mainClass.createMainClass(startPoint, new Size(0, 0), "Class");
+                board.addShape(mainShape);
+            }
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
         return true;
     }
 
     @Override
     public boolean released(int x, int y) {
-        Optional.ofNullable(JOptionPane.showInputDialog("Please enter the class name"))
-                .filter(input -> !input.isEmpty())
-                .ifPresent(input -> {
-                    final int width = x - startPoint.getX();
-                    final int height = y - startPoint.getY();
-                    try {
-                        Shape shape = mainClass.createShape(
-                                startPoint,
-                                new Size(width, height), input);
-                        board.addShape(shape);
-                    } catch (Exception e1) {
-                        e1.printStackTrace();
-                    }
-                });
+        final int width = x - startPoint.getX();
+        final int height = y - startPoint.getY();
+        mainShape.setSize(new Size(width, height));
+        try {
+            String response = JOptionPane.showInputDialog("Please enter the class name");
+            if (response == null) {
+                board.removeShape(mainShape);
+            } else {
+                mainShape.setText(response);
+            }
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+        return true;
+    }
 
+    @Override
+    public boolean dragged(int x, int y) {
+        final int width = x - startPoint.getX();
+        final int height = y - startPoint.getY();
+        mainShape.setSize(new Size(width, height));
         return true;
     }
 

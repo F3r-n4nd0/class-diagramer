@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class MainClass implements Serializable {
+public abstract class MainClass implements Serializable, Shape {
 
     private static final int PERCENTAGES_START_DETAIL_SQUARE = 80;
     private static final int PERCENTAGE_FINISH_DETAIL_SQUARE = 96;
@@ -33,10 +33,14 @@ public abstract class MainClass implements Serializable {
         this.text = text;
     }
 
-    public abstract Shape createShape(Point positionPoint, Size size, String text) throws Exception;
+    public abstract MainClass createMainClass(Point positionPoint, Size size, String text) throws Exception;
 
     public Point getPositionPoint() {
         return positionPoint;
+    }
+
+    public void setPositionPoint(Point positionPoint) {
+        this.positionPoint = positionPoint;
     }
 
     public Size getSize() {
@@ -51,6 +55,10 @@ public abstract class MainClass implements Serializable {
         return text;
     }
 
+    public void setText(String text) {
+        this.text = text;
+    }
+
     protected Point[] getUnionPoints() {
 
         Point point1 = new Point(positionPoint.getX() + size.getWidth(50), positionPoint.getY());
@@ -61,7 +69,7 @@ public abstract class MainClass implements Serializable {
 
     }
 
-    protected boolean isLocated(Point point) {
+    public boolean isLocated(Point point) {
         return (isBetween(point.getX(), positionPoint.getX(), (positionPoint.getX() + size.getWidth())) &&
                 isBetween(point.getY(), positionPoint.getY(), (positionPoint.getY() + size.getHeight())));
 

@@ -6,11 +6,11 @@ import Domain.Shape.Models.Point;
 
 import java.io.Serializable;
 
-public abstract class Connector implements Serializable {
+public abstract class Connector implements Serializable, Shape {
 
     private MainClass firstClass;
     private MainClass secondClass;
-
+    private Point temporalPoint;
 
     public Connector() {
     }
@@ -19,18 +19,28 @@ public abstract class Connector implements Serializable {
         if (firstClass == null) {
             throw new Exception("First class can't be null");
         }
-        if (secondClass == null) {
-            throw new Exception("Second class can't be null");
-        }
         this.firstClass = firstClass;
         this.secondClass = secondClass;
     }
 
-    public abstract Shape createShape(MainClass firstClass, MainClass secondClass) throws Exception;
+    public void setTemporalPoint(Point temporalPoint) {
+        this.temporalPoint = temporalPoint;
+    }
+
+    public void setSecondClass(MainClass secondClass) {
+        this.secondClass = secondClass;
+    }
+
+    public abstract Connector createConnector(MainClass firstClass, MainClass secondClass) throws Exception;
 
     protected Line calculateShortLine() throws Exception {
         Point[] unionPointsFirsClass = firstClass.getUnionPoints();
-        Point[] unionPointsSecondClass = secondClass.getUnionPoints();
+        Point[] unionPointsSecondClass = new Point[] {};
+        if (secondClass != null) {
+            unionPointsSecondClass = secondClass.getUnionPoints();
+        } else if (temporalPoint != null) {
+            unionPointsSecondClass =  new Point[]{ temporalPoint };
+        }
         return getShortLine(unionPointsFirsClass, unionPointsSecondClass);
     }
 
@@ -59,7 +69,7 @@ public abstract class Connector implements Serializable {
         return new Point(x, y);
     }
 
-    protected boolean isLocated(Point point) {
+    public boolean isLocated(Point point) {
         try {
             Line line = calculateShortLine();
             double lengthLine = line.getLength();

@@ -81,6 +81,9 @@ public class MenuBar extends JPanel implements MenuSelectShapeDelegate, MenuShap
 
     @Override
     public void deselectAll() {
+        if (buttonSelected == null) {
+            return;
+        }
         buttonSelected.isSelected = false;
         buttonSelected.repaint();
         buttonSelected = null;
