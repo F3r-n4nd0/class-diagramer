@@ -16,6 +16,7 @@ public class DirectAssociation extends Connector implements Shape {
 
     public static final int ARROW_LENGTH = 12;
     public static final int ARROW_ANGLE = 25;
+    public static final int HIGH_DIVISOR = 2;
 
     public DirectAssociation(MainClass firstClass, MainClass secondClass) throws Exception {
         super(firstClass, secondClass);
@@ -46,8 +47,8 @@ public class DirectAssociation extends Connector implements Shape {
     @Override
     public ObjectsToDraw getObjectsToDraw(Point position, Size size) throws Exception {
         Line line = new Line(
-                new Point(position.getX(), position.getY() + size.getHeight() / 2),
-                new Point(position.getX() + size.getWidth(), position.getY() + size.getHeight() / 2)
+                new Point(position.getX(), position.getY() + size.getHeight() / HIGH_DIVISOR),
+                new Point(position.getX() + size.getWidth(), position.getY() + size.getHeight() / HIGH_DIVISOR)
         );
         double angleLine = line.getAngle();
         Point point1 = calculatePointsArrow(line.getFinalPoint(), ARROW_LENGTH, angleLine - Math.toRadians(ARROW_ANGLE));
