@@ -4,13 +4,11 @@ import Domain.Board.Board;
 import Domain.Shape.Connector;
 import Domain.Shape.MainClass;
 import Domain.Shape.Models.Point;
-import Domain.Shape.Models.Size;
 import Domain.Shape.Shape;
 
-import javax.swing.*;
 import java.util.Optional;
 
-public class DrawingConnectorEvents implements MouseDrawinEvents {
+public class DrawingConnectorEvents implements MouseDrawingEvents {
 
     private Connector connector;
     private Board board;

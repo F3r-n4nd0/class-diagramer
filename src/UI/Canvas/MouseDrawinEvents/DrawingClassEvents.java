@@ -9,7 +9,7 @@ import Domain.Shape.Shape;
 import javax.swing.*;
 import java.util.Optional;
 
-public class DrawingClassEvents implements MouseDrawinEvents {
+public class DrawingClassEvents implements MouseDrawingEvents {
 
     private MainClass mainClass;
     private Board board;

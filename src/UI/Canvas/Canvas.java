@@ -2,17 +2,12 @@ package UI.Canvas;
 
 import Domain.Board.ActionCanvas;
 import Domain.Board.Board;
-import Domain.Shape.Connector;
-import Domain.Shape.MainClass;
-import Domain.Shape.Models.Point;
-import Domain.Shape.Models.Size;
 import Domain.Shape.Shape;
-import UI.Canvas.MouseDrawinEvents.MouseDrawinEvents;
+import UI.Canvas.MouseDrawinEvents.MouseDrawingEvents;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Optional;
 import javax.swing.*;
 
 public class Canvas extends JPanel implements MouseListener, ActionCanvas {
@@ -27,7 +22,7 @@ public class Canvas extends JPanel implements MouseListener, ActionCanvas {
         addMouseListener(this);
     }
 
-    private MouseDrawinEvents mouseDrawinEvents;
+    private MouseDrawingEvents mouseDrawinEvents;
 
     @Override
     public void mouseClicked(MouseEvent e) {

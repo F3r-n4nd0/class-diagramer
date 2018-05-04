@@ -1,15 +1,9 @@
 package UI.Canvas.MouseDrawinEvents;
 
 import Domain.Board.Board;
-import Domain.Shape.MainClass;
 import Domain.Shape.Models.Point;
-import Domain.Shape.Models.Size;
-import Domain.Shape.Shape;
 
-import javax.swing.*;
-import java.util.Optional;
-
-public class SelectEvents implements MouseDrawinEvents {
+public class SelectEvents implements MouseDrawingEvents {
 
     private Board board;
 

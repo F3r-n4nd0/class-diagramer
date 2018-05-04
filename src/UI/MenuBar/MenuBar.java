@@ -7,7 +7,7 @@ import Domain.Shape.Shape;
 import UI.Canvas.MenuShapesDelegate;
 import UI.Canvas.MouseDrawinEvents.DrawingClassEvents;
 import UI.Canvas.MouseDrawinEvents.DrawingConnectorEvents;
-import UI.Canvas.MouseDrawinEvents.MouseDrawinEvents;
+import UI.Canvas.MouseDrawinEvents.MouseDrawingEvents;
 import UI.Canvas.MouseDrawinEvents.SelectEvents;
 import UI.FormAbout;
 
@@ -64,7 +64,7 @@ public class MenuBar extends JPanel implements MenuSelectShapeDelegate, MenuShap
     }
 
     @Override
-    public MouseDrawinEvents getMouseEvent(Board board) {
+    public MouseDrawingEvents getMouseEvent(Board board) {
         Optional<Shape> shape = Optional.ofNullable(buttonSelected).map(ShapeButton::getShape);
         if (!shape.isPresent()) {
             return new SelectEvents(board);
