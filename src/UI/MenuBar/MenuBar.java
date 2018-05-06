@@ -1,7 +1,14 @@
 package UI.MenuBar;
 
+import Domain.Board.Board;
+import Domain.Shape.Connector;
+import Domain.Shape.MainClass;
 import Domain.Shape.Shape;
 import UI.Canvas.MenuShapesDelegate;
+import UI.Canvas.MouseDrawinEvents.DrawingClassEvents;
+import UI.Canvas.MouseDrawinEvents.DrawingConnectorEvents;
+import UI.Canvas.MouseDrawinEvents.MouseDrawingEvents;
+import UI.Canvas.MouseDrawinEvents.SelectEvents;
 import UI.FormAbout;
 
 import java.util.Optional;
@@ -57,12 +64,26 @@ public class MenuBar extends JPanel implements MenuSelectShapeDelegate, MenuShap
     }
 
     @Override
-    public Optional<Shape> getSelectShape() {
-        return Optional.ofNullable(buttonSelected).map(ShapeButton::getShape);
+    public MouseDrawingEvents getMouseEvent(Board board) {
+        Optional<Shape> shape = Optional.ofNullable(buttonSelected).map(ShapeButton::getShape);
+        if (!shape.isPresent()) {
+            return new SelectEvents(board);
+        }
+
+        if (shape.get() instanceof MainClass) {
+            return new DrawingClassEvents((MainClass) shape.get(), board);
+        }
+        if (shape.get() instanceof Connector) {
+            return new DrawingConnectorEvents((Connector) shape.get(), board);
+        }
+        return new SelectEvents(board);
     }
 
     @Override
     public void deselectAll() {
+        if (buttonSelected == null) {
+            return;
+        }
         buttonSelected.isSelected = false;
         buttonSelected.repaint();
         buttonSelected = null;
