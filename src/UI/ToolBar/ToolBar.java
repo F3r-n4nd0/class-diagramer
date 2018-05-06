@@ -33,72 +33,21 @@ public class ToolBar extends JMenuBar {
     }
 
     private void LoadMenu() {
-        menu = new JMenu("File");
+
+        addMenuFile();
+        addMenuEdit();
+        addMenuOption();
+        addMenuHelp();
+
+    }
+
+    public void addMenuHelp() {
+        menu = new JMenu("Help");
         add(menu);
+        addMenuItem(menu, e -> menuBar.openAbout(), "About", 'H', true);
+    }
 
-        addMenuItem(menu, e -> board.clean(), "New", 'N', true);
-
-        menuItem = new JMenuItem("Open");
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('O', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        menu.add(menuItem);
-        menuItem.addActionListener(e -> {
-            try {
-                String filename = ChooseFile("Open");
-                if (filename != "") {
-                    board.setRepository(new File(filename));
-                    board.loadData();
-                }
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
-        });
-
-        menuItem = new JMenuItem("Save");
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        menu.add(menuItem);
-        menuItem.addActionListener(e -> {
-            try {
-                if (board.getRepository() != null) {
-                    board.saveData();
-                } else {
-                    String filename = ChooseFile("Save");
-                    if (filename != "") {
-                        board.setRepository(new File(filename));
-                        board.saveData();
-                    }
-                }
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
-        });
-
-        menuItem = new JMenuItem("Save As");
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('G', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        menu.add(menuItem);
-        menuItem.addActionListener(e -> {
-            try {
-                String filename = ChooseFile("Save As");
-                if (filename != "") {
-                    board.setRepository(new File(filename));
-                    board.saveData();
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        });
-
-        menu.add(new JSeparator());
-
-        addMenuItem(menu, e -> System.exit(0), "Exit", 'E', true);
-
-        // option menu
-        menu = new JMenu("Edit");
-        add(menu);
-
-        addMenuItem(menu, e -> board.undo(), "Undo", 'U', true);
-        addMenuItem(menu, e -> board.redo(), "Redo", 'R', true);
-
-        // option menu
+    private void addMenuOption() {
         menu = new JMenu("Option");
         add(menu);
 
@@ -110,16 +59,87 @@ public class ToolBar extends JMenuBar {
         addMenuItem(menu, e -> menuBar.Select(DirectAssociation.class), "Direct Association Connector", KeyEvent
                 .VK_D, false);
         addMenuItem(menu, e -> menuBar.Select(Inherit.class), "Inherit Connector", KeyEvent.VK_H, false);
+    }
 
-        // horizontal space
-        add(Box.createHorizontalGlue());
-
-        // Help menu
-        menu = new JMenu("Help");
+    private void addMenuEdit() {
+        menu = new JMenu("Edit");
         add(menu);
 
-        addMenuItem(menu, e -> menuBar.openAbout(), "About", 'H', true);
+        addMenuItem(menu, e -> board.undo(), "Undo", 'U', true);
+        addMenuItem(menu, e -> board.redo(), "Redo", 'R', true);
     }
+
+    private void addMenuFile() {
+        menu = new JMenu("File");
+        add(menu);
+
+        addMenuItem(menu, e -> board.clean(), "New", 'N', true);
+        addMenuItem(menu, e -> OpenFile(), "Open", 'O', true);
+        addMenuItem(menu, e -> SaveFile(), "Save", 'S', true);
+        addMenuItem(menu, e -> SaveAsFile(), "SaveAs", 'G', true);
+
+        menu.add(new JSeparator());
+
+        addMenuItem(menu, e -> System.exit(0), "Exit", 'E', true);
+    }
+
+    private void addMenuItem(JMenu menu, ToolBarListener listener, String name, int key, boolean type) {
+        try {
+            menuItem = new JMenuItem(name);
+            if (type) {
+                menuItem.setAccelerator(KeyStroke.getKeyStroke(key, Toolkit.getDefaultToolkit()
+                        .getMenuShortcutKeyMask()));
+            } else {
+                menuItem.setAccelerator(KeyStroke.getKeyStroke(key, ActionEvent.ALT_MASK));
+            }
+            menu.add(menuItem);
+            menuItem.addActionListener(listener::exec);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void SaveAsFile() {
+        try {
+            String filename = ChooseFile("Save As");
+            if (filename != "") {
+                board.setRepository(new File(filename));
+                board.saveData();
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void SaveFile() {
+        try {
+            if (board.getRepository() != null) {
+                board.saveData();
+            } else {
+                String filename = ChooseFile("Save");
+                if (filename != "") {
+                    board.setRepository(new File(filename));
+                    board.saveData();
+                }
+            }
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    private void OpenFile() {
+        try {
+            String filename = ChooseFile("Open");
+            if (filename != "") {
+                board.setRepository(new File(filename));
+                board.loadData();
+            }
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+    }
+
 
     private String ChooseFile(String save) {
         JFileChooser chooser = new JFileChooser(lastPath);
@@ -140,20 +160,5 @@ public class ToolBar extends JMenuBar {
         return "";
     }
 
-    private void addMenuItem(JMenu menu, ToolBarListener listener, String name, int key, boolean type) {
-        try {
-            menuItem = new JMenuItem(name);
-            if (type) {
-                menuItem.setAccelerator(KeyStroke.getKeyStroke(key, Toolkit.getDefaultToolkit()
-                        .getMenuShortcutKeyMask()));
-            } else {
-                menuItem.setAccelerator(KeyStroke.getKeyStroke(key, ActionEvent.ALT_MASK));
-            }
-            menu.add(menuItem);
-            menuItem.addActionListener(listener::exec);
 
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
 }

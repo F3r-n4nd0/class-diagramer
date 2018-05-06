@@ -13,6 +13,8 @@ import java.util.List;
 
 public class Association extends Connector implements Shape {
 
+    public static final int HIGH_DIVISOR = 2;
+
     public Association(MainClass firstClass, MainClass secondClass) throws Exception {
         super(firstClass, secondClass);
     }
@@ -37,8 +39,8 @@ public class Association extends Connector implements Shape {
     @Override
     public ObjectsToDraw getObjectsToDraw(Point position, Size size) throws Exception {
         Line line = new Line(
-                new Point(position.getX(), position.getY() + size.getHeight() / 2),
-                new Point(position.getX() + size.getWidth(), position.getY() + size.getHeight() / 2)
+                new Point(position.getX(), position.getY() + size.getHeight() / HIGH_DIVISOR),
+                new Point(position.getX() + size.getWidth(), position.getY() + size.getHeight() / HIGH_DIVISOR)
         );
 
         List<Line> lines = new ArrayList<Line>();

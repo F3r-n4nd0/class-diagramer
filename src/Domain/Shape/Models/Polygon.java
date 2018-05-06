@@ -1,8 +1,7 @@
 package Domain.Shape.Models;
 
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 public class Polygon {
 
@@ -20,27 +19,15 @@ public class Polygon {
         this.points = points;
     }
 
-    public Point[] getPoints() {
-        return points;
-    }
-
     public int getNumberOfPoints() {
         return points.length;
     }
 
     public int[] getPointsX() {
-        List<Integer> xPoints = new ArrayList<Integer>();
-        for (Point point : points) {
-            xPoints.add(point.getX());
-        }
-        return xPoints.stream().mapToInt(i -> i).toArray();
+        return Arrays.stream(points).mapToInt(Point::getX).toArray();
     }
 
     public int[] getPointsY() {
-        List<Integer> yPoints = new ArrayList<Integer>();
-        for (Point point : points) {
-            yPoints.add(point.getY());
-        }
-        return yPoints.stream().mapToInt(i -> i).toArray();
+        return Arrays.stream(points).mapToInt(Point::getY).toArray();
     }
 }

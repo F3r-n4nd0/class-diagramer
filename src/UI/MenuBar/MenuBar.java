@@ -4,6 +4,7 @@ import Domain.Shape.Shape;
 import UI.Canvas.MenuShapesDelegate;
 import UI.FormAbout;
 
+import java.util.Optional;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -56,11 +57,8 @@ public class MenuBar extends JPanel implements MenuSelectShapeDelegate, MenuShap
     }
 
     @Override
-    public Shape getSelectShape() {
-        if (buttonSelected == null) {
-            return null;
-        }
-        return buttonSelected.getShape();
+    public Optional<Shape> getSelectShape() {
+        return Optional.ofNullable(buttonSelected).map(ShapeButton::getShape);
     }
 
     @Override

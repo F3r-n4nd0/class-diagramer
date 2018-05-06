@@ -14,6 +14,8 @@ public class Inherit extends Connector implements Shape {
 
     public static final int ARROW_LENGTH = 12;
     public static final int ARROW_ANGLE = 25;
+    public static final int HIGH_DIVISOR = 2;
+
 
     public Inherit(MainClass firstClass, MainClass secondClass) throws Exception {
         super(firstClass, secondClass);
@@ -46,7 +48,7 @@ public class Inherit extends Connector implements Shape {
     @Override
     public ObjectsToDraw getObjectsToDraw(Point position, Size size) throws Exception {
 
-        int y = Math.round((float) position.getY() + (float) (size.getHeight() / 2.0));
+        int y = Math.round((float) position.getY() + (float) (size.getHeight() / HIGH_DIVISOR));
 
         Line line = new Line(
                 new Point(position.getX(), y),
