@@ -14,6 +14,9 @@ public abstract class MainClass implements Serializable, Shape {
     private static final int PERCENTAGES_START_DETAIL_SQUARE = 80;
     private static final int PERCENTAGE_FINISH_DETAIL_SQUARE = 96;
 
+    private static final int MIN_SIZE_WIDTH = 200;
+    private static final int MIN_SIZE_HEIGHT = 100;
+
     private Point positionPoint;
     private Size size;
     private String text;
@@ -29,8 +32,8 @@ public abstract class MainClass implements Serializable, Shape {
             throw new Exception("Size can't be null");
         }
         this.positionPoint = positionPoint;
-        this.size = size;
         this.text = text;
+        this.setSize(size);
     }
 
     public abstract MainClass createMainClass(Point positionPoint, Size size, String text) throws Exception;
@@ -48,7 +51,10 @@ public abstract class MainClass implements Serializable, Shape {
     }
 
     public void setSize(Size size) {
-        this.size = size;
+        Integer maxWidth = Integer.max(MIN_SIZE_WIDTH, size.getWidth());
+        Integer maxHeight = Integer.max(MIN_SIZE_HEIGHT, size.getHeight());
+        Size newSize = new Size(maxWidth, maxHeight);
+        this.size = newSize;
     }
 
     public String getText() {
