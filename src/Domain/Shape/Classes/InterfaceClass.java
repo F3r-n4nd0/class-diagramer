@@ -24,7 +24,7 @@ public class InterfaceClass extends MainClass implements Shape {
     }
 
     @Override
-    public Shape createShape(Point positionPoint, Size size, String text) throws Exception {
+    public MainClass createMainClass(Point positionPoint, Size size, String text) throws Exception {
         return new InterfaceClass(positionPoint, size, text);
     }
 

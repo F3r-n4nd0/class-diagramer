@@ -9,10 +9,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class MainClass implements Serializable {
+public abstract class MainClass implements Serializable, Shape {
 
     private static final int PERCENTAGES_START_DETAIL_SQUARE = 80;
     private static final int PERCENTAGE_FINISH_DETAIL_SQUARE = 96;
+
+    private static final int MIN_SIZE_WIDTH = 200;
+    private static final int MIN_SIZE_HEIGHT = 100;
 
     private Point positionPoint;
     private Size size;
@@ -29,14 +32,18 @@ public abstract class MainClass implements Serializable {
             throw new Exception("Size can't be null");
         }
         this.positionPoint = positionPoint;
-        this.size = size;
         this.text = text;
+        this.setSize(size);
     }
 
-    public abstract Shape createShape(Point positionPoint, Size size, String text) throws Exception;
+    public abstract MainClass createMainClass(Point positionPoint, Size size, String text) throws Exception;
 
     public Point getPositionPoint() {
         return positionPoint;
+    }
+
+    public void setPositionPoint(Point positionPoint) {
+        this.positionPoint = positionPoint;
     }
 
     public Size getSize() {
@@ -44,11 +51,18 @@ public abstract class MainClass implements Serializable {
     }
 
     public void setSize(Size size) {
-        this.size = size;
+        Integer maxWidth = Integer.max(MIN_SIZE_WIDTH, size.getWidth());
+        Integer maxHeight = Integer.max(MIN_SIZE_HEIGHT, size.getHeight());
+        Size newSize = new Size(maxWidth, maxHeight);
+        this.size = newSize;
     }
 
     public String getText() {
         return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 
     protected Point[] getUnionPoints() {
@@ -61,7 +75,7 @@ public abstract class MainClass implements Serializable {
 
     }
 
-    protected boolean isLocated(Point point) {
+    public boolean isLocated(Point point) {
         return (isBetween(point.getX(), positionPoint.getX(), (positionPoint.getX() + size.getWidth())) &&
                 isBetween(point.getY(), positionPoint.getY(), (positionPoint.getY() + size.getHeight())));
 
@@ -119,4 +133,5 @@ public abstract class MainClass implements Serializable {
         lines.add(new Line(pointAbstract3, pointAbstract4));
         lines.add(new Line(pointAbstract4, pointAbstract1));
     }
+
 }

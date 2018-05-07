@@ -26,7 +26,7 @@ public class Inherit extends Connector implements Shape {
     }
 
     @Override
-    public Shape createShape(MainClass firstClass, MainClass secondClass) throws Exception {
+    public Connector createConnector(MainClass firstClass, MainClass secondClass) throws Exception {
         return new Inherit(firstClass, secondClass);
     }
 

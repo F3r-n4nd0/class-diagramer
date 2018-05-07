@@ -27,7 +27,7 @@ public class DirectAssociation extends Connector implements Shape {
     }
 
     @Override
-    public Shape createShape(MainClass firstClass, MainClass secondClass) throws Exception {
+    public Connector createConnector(MainClass firstClass, MainClass secondClass) throws Exception {
         return new DirectAssociation(firstClass, secondClass);
     }
 

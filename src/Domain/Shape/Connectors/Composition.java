@@ -27,7 +27,7 @@ public class Composition extends Connector implements Shape {
     }
 
     @Override
-    public Shape createShape(MainClass firstClass, MainClass secondClass) throws Exception {
+    public Connector createConnector(MainClass firstClass, MainClass secondClass) throws Exception {
         return new Composition(firstClass, secondClass);
     }
 
