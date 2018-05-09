@@ -14,8 +14,8 @@ public abstract class MainClass implements Serializable, Shape {
     private static final int PERCENTAGES_START_DETAIL_SQUARE = 80;
     private static final int PERCENTAGE_FINISH_DETAIL_SQUARE = 96;
 
-    private static final int MIN_SIZE_WIDTH = 200;
-    private static final int MIN_SIZE_HEIGHT = 100;
+    public static final int MIN_SIZE_WIDTH = 200;
+    public static final int MIN_SIZE_HEIGHT = 100;
 
     private Point positionPoint;
     private Size size;
