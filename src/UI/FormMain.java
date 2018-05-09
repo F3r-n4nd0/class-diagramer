@@ -10,6 +10,7 @@ import Domain.Shape.Connectors.DirectAssociation;
 import Domain.Shape.Connectors.Inherit;
 import Domain.Shape.Shape;
 import UI.Canvas.Canvas;
+import UI.MenuBar.DetailShapeBar;
 import UI.MenuBar.MenuBar;
 import UI.ToolBar.ToolBar;
 
@@ -23,6 +24,7 @@ public class FormMain extends JFrame {
     private UI.Canvas.Canvas canvas;
     private ToolBar toolBar;
     private MenuBar menuBar;
+    private DetailShapeBar detailShapeBar;
 
     public FormMain() throws Exception {
         super("Class Diagrammer");
@@ -35,13 +37,15 @@ public class FormMain extends JFrame {
         menuBar = new MenuBar(getShapesMenu());
         canvas = new Canvas(board, menuBar);
         toolBar = new ToolBar(board, menuBar);
+        detailShapeBar = new DetailShapeBar(board);
     }
 
-    private void addControls() throws Exception {
+    private void addControls() {
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(canvas, BorderLayout.CENTER);
         getContentPane().add(toolBar, BorderLayout.NORTH);
         getContentPane().add(menuBar, BorderLayout.WEST);
+        getContentPane().add(detailShapeBar, BorderLayout.EAST);
     }
 
     public void showFrame() {

@@ -11,15 +11,21 @@ import java.util.Stack;
 
 public class Board {
 
+    private List<ObserverBoard> observers = new ArrayList<>();
+
     private List<Shape> shapes;
-    private List<Shape> selectedShapes;
+    private Shape selectShape;
     private Repository repository;
     private ActionCanvas delegateCanvas;
     private Stack<Shape> listShapes = new Stack<>();
 
     public Board() {
         this.shapes = new ArrayList<>(0);
-        this.selectedShapes = new ArrayList<>(0);
+        this.selectShape = null;
+    }
+
+    public void add(ObserverBoard o) {
+        observers.add(o);
     }
 
     public void setDelegateCanvas(ActionCanvas delegateCanvas) {
@@ -51,6 +57,10 @@ public class Board {
         repaint();
     }
 
+    public Shape getSelectedShape() {
+        return selectShape;
+    }
+
     public void addShape(Shape shape) {
         shapes.add(shape);
     }
@@ -76,16 +86,17 @@ public class Board {
     public void selectShape(Point point) {
         shapes.stream().filter(shape -> shape.isLocated(point))
             .forEach(shape -> {
-                if (selectedShapes.contains(shape)) {
-                    selectedShapes.remove(shape);
+                if (selectShape == shape) {
+                    selectShape = null;
                 } else {
-                    selectedShapes.add(shape);
+                    selectShape = shape;
                 }
+                executeUpdateObserver();
             });
     }
 
     public boolean isSelected(Shape shape) {
-        return selectedShapes.contains(shape);
+        return selectShape == shape;
     }
 
     public void undo() {
@@ -112,12 +123,29 @@ public class Board {
     }
 
     public void moveSelected(int x, int y) {
-        selectedShapes.stream()
-            .filter(shape -> shape instanceof MainClass)
-            .forEach(shape -> ((MainClass) shape).move(x, y));
+        if (selectShape != null && selectShape instanceof  MainClass) {
+            ((MainClass) selectShape).move(x,y);
+            executeUpdateObserver();
+        }
     }
 
     private void repaint(){
         Optional.ofNullable(delegateCanvas).ifPresent(ActionCanvas::repaintCanvas);
+    }
+
+
+    private void executeUpdateObserver() {
+        for (ObserverBoard observer : observers) {
+            observer.updateShapes();
+        }
+    }
+
+    public void updateSelectShape(MainClass mainClass) {
+
+        shapes.remove(selectShape);
+        shapes.add(mainClass);
+        selectShape = mainClass;
+        repaint();
+
     }
 }
